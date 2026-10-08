@@ -1,6 +1,7 @@
-Chrome >=79
-ChromeAndroid >=79
-Firefox >=70
-Edge >=79
-Safari >=14
-iOS >=14
+# Floor = first versions with CSS color-mix(), used by the theme tokens.
+Chrome >=111
+ChromeAndroid >=111
+Firefox >=113
+Edge >=111
+Safari >=16.2
+iOS >=16.2
