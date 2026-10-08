@@ -79,7 +79,10 @@ export function startWordPractice(input: PracticeWordInput): WordPracticeState {
  *
  * @throws {RangeError} when `mistakes` is not a non-negative integer.
  */
-export function recordCharResult(state: WordPracticeState, attempt: CharAttempt): WordPracticeState {
+export function recordCharResult(
+  state: WordPracticeState,
+  attempt: CharAttempt,
+): WordPracticeState {
   return appendResult(state, attempt.mistakes, false);
 }
 

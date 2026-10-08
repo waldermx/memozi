@@ -34,7 +34,11 @@ describe.each(LEVELS)('data/%i.json', (level) => {
     entries.forEach((entry, i) => {
       const pinyin = entry.forms[0]?.transcriptions.pinyin ?? '';
       try {
-        const steps = toPracticeSteps({ id: `${level}-${i}`, simplified: entry.simplified, pinyin });
+        const steps = toPracticeSteps({
+          id: `${level}-${i}`,
+          simplified: entry.simplified,
+          pinyin,
+        });
         if (steps.some((s) => s.pinyin === null)) pinyinMismatch.push(entry.simplified);
         if (steps.length !== Array.from(entry.simplified).length) nonCjk.push(entry.simplified);
       } catch (err) {

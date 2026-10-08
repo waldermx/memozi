@@ -78,7 +78,10 @@ export function toPracticeSteps(input: PracticeWordInput): readonly PracticeStep
     throw new InvalidPracticeWordError('NO_CJK_CHARACTERS', input.id);
   }
 
-  const syllables = input.pinyin.trim().split(/\s+/u).filter((s) => s !== '');
+  const syllables = input.pinyin
+    .trim()
+    .split(/\s+/u)
+    .filter((s) => s !== '');
   const syllableAt = alignSyllables(chars, hanPositions, syllables);
   const total = hanPositions.length;
 
