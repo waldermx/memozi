@@ -60,10 +60,13 @@ const light = lightTokens(tokensCss);
 const dark = darkTokens(tokensCss);
 
 describe('design tokens: colors', () => {
-  it.each(Object.entries(GUIDE_COLORS))('%s matches the style guide in light and dark', (name, expected) => {
-    expect(light[name]?.toLowerCase()).toBe(expected.light);
-    expect(dark[name]?.toLowerCase()).toBe(expected.dark);
-  });
+  it.each(Object.entries(GUIDE_COLORS))(
+    '%s matches the style guide in light and dark',
+    (name, expected) => {
+      expect(light[name]?.toLowerCase()).toBe(expected.light);
+      expect(dark[name]?.toLowerCase()).toBe(expected.dark);
+    },
+  );
 
   it('defines --mz-on-action in both schemes', () => {
     expect(() => parseHex(light['--mz-on-action'])).not.toThrow();
@@ -133,7 +136,9 @@ describe('design tokens: scales', () => {
   });
 
   it('hanzi font stack uses Noto Serif SC first', () => {
-    expect(light['--mz-font-hanzi']).toMatch(/^"Noto Serif SC",\s*"Noto Sans SC",\s*serif$/);
+    expect(light['--mz-font-hanzi']).toMatch(
+      /^(["'])Noto Serif SC\1,\s*(["'])Noto Sans SC\2,\s*serif$/,
+    );
     expect(light['--mz-font-ui']).toMatch(/^system-ui/);
   });
 });

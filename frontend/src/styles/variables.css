@@ -1,124 +1,139 @@
 /* =========================================================
-   src/styles/variables.css — MemoZi Design System v2
-   Paleta Apple-style: minimalista, blanco/negro + accents vibrantes
+   src/styles/variables.css — LEGACY variables (deprecated)
+
+   The design tokens live in src/theme/tokens.css (--mz-*).
+   Everything below is kept only so existing components pick up the
+   MemoZi palette without being rewritten. New code must use --mz-*
+   directly; these aliases will be removed as screens are migrated.
+
+   Because the aliases point at --mz-* tokens, dark mode is handled
+   by tokens.css and no longer needs its own block here.
    ========================================================= */
+@import '../theme/tokens.css';
+
 :root {
-  /* ---- Typography ---- */
-  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-size-xs: 11px;
-  --font-size-sm: 13px;
-  --font-size-md: 15px;
-  --font-size-lg: 17px;
-  --font-size-xl: 22px;
-  --font-size-2xl: 28px;
+  /* ---- Typography (deprecated → --mz-font-*) ---- */
+  --font-family: var(--mz-font-ui);
+  --font-size-xs: var(--mz-font-size-xs); /* was 11px, 13px is the smallest step in the guide */
+  --font-size-sm: var(--mz-font-size-xs);
+  --font-size-md: var(--mz-font-size-sm);
+  --font-size-lg: var(--mz-font-size-md);
+  --font-size-xl: var(--mz-font-size-lg);
+  --font-size-2xl: var(--mz-font-size-xl);
+  /* Display sizes for hanzi, outside the UI type scale */
   --font-size-3xl: 38px;
   --font-size-4xl: 56px;
   --font-size-hanzi: 96px;
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
-  --font-weight-heavy: 800;
+  --font-weight-regular: var(--mz-font-weight-regular);
+  --font-weight-medium: var(--mz-font-weight-medium);
+  --font-weight-semibold: var(--mz-font-weight-bold);
+  --font-weight-bold: var(--mz-font-weight-bold);
+  --font-weight-heavy: var(--mz-font-weight-bold);
 
-  /* ---- Colors — light mode ---- */
-  --c-bg:          #FFFFFF;
-  --c-bg-secondary: #F5F5F7;
-  --c-bg-tertiary: #EBEBF0;
-  --c-surface:     #FFFFFF;
-  --c-surface-raised: #F5F5F7;
-  --c-text:        #1D1D1F;
-  --c-text-secondary: #86868B;
-  --c-text-tertiary: #AEAEB2;
-  --c-separator:   rgba(0,0,0,0.08);
-  --c-overlay:     rgba(0,0,0,0.5);
+  /* ---- Colors (deprecated → --mz-*) ---- */
+  --c-bg: var(--mz-bg);
+  --c-bg-secondary: var(--mz-bg);
+  --c-bg-tertiary: var(--mz-line);
+  --c-surface: var(--mz-surface);
+  --c-surface-raised: var(--mz-surface);
+  --c-text: var(--mz-text);
+  --c-text-secondary: var(--mz-text-muted);
+  --c-text-tertiary: var(--mz-text-muted);
+  --c-separator: var(--mz-line);
+  --c-overlay: rgba(0, 0, 0, 0.5);
 
-  /* ---- Accent colors ---- */
-  --c-blue:        #0071E3;
-  --c-blue-light:  #47A8FF;
-  --c-blue-bg:     #EBF3FF;
-  --c-green:       #30D158;
-  --c-green-light: #68E093;
-  --c-green-bg:    #E8F9ED;
-  --c-red:         #FF375F;
-  --c-red-light:   #FF6B87;
-  --c-red-bg:      #FFF0F3;
-  --c-amber:       #FF9F0A;
-  --c-amber-light: #FFB84D;
-  --c-amber-bg:    #FFF8E8;
-  --c-purple:      #BF5AF2;
-  --c-purple-light: #D48EFF;
-  --c-purple-bg:   #F7EEFF;
-  --c-gray:        #8E8E93;
-  --c-gray-light:  #C7C7CC;
-  --c-gray-bg:     #F2F2F7;
+  /* ---- Accent colors (deprecated) ----
+     -light / -bg variants are tints of the token over the surface. */
+  --c-blue: var(--mz-action);
+  --c-blue-light: var(--mz-brand);
+  --c-blue-bg: color-mix(in srgb, var(--mz-action) 12%, var(--mz-surface));
+  --c-green: var(--mz-success);
+  --c-green-light: color-mix(in srgb, var(--mz-success) 70%, var(--mz-surface));
+  --c-green-bg: color-mix(in srgb, var(--mz-success) 12%, var(--mz-surface));
+  --c-red: var(--mz-error);
+  --c-red-light: color-mix(in srgb, var(--mz-error) 70%, var(--mz-surface));
+  --c-red-bg: color-mix(in srgb, var(--mz-error) 12%, var(--mz-surface));
+  /* No warning/amber token in the style guide yet — kept as is. */
+  --c-amber: #ff9f0a;
+  --c-amber-light: #ffb84d;
+  --c-amber-bg: color-mix(in srgb, var(--c-amber) 12%, var(--mz-surface));
+  /* Purple is not part of the palette; mapped to brand. */
+  --c-purple: var(--mz-brand);
+  --c-purple-light: color-mix(in srgb, var(--mz-brand) 70%, var(--mz-surface));
+  --c-purple-bg: color-mix(in srgb, var(--mz-brand) 12%, var(--mz-surface));
+  --c-gray: var(--mz-text-muted);
+  --c-gray-light: var(--mz-line);
+  --c-gray-bg: var(--mz-bg);
 
-  /* ---- Character card state colors ---- */
-  --card-new:         var(--c-gray);        /* Sin estudiar */
-  --card-learning:    var(--c-blue);        /* Aprendiendo */
-  --card-fresh:       var(--c-green);       /* Review: due > 2d */
-  --card-due:         var(--c-amber);       /* Para repasar hoy */
-  --card-overdue:     var(--c-red);         /* Vencido */
-  --card-mastered:    var(--c-purple);      /* Dominado: stability > 30d */
+  /* ---- Character card state colors (deprecated) ---- */
+  --card-new: var(--c-gray); /* Sin estudiar */
+  --card-learning: var(--c-blue); /* Aprendiendo */
+  --card-fresh: var(--c-green); /* Review: due > 2d */
+  --card-due: var(--c-amber); /* Para repasar hoy */
+  --card-overdue: var(--c-red); /* Vencido */
+  --card-mastered: var(--c-purple); /* Dominado: stability > 30d */
 
-  /* ---- Tone colors (standard Chinese linguistics) ---- */
-  --tone-1: #E5393A;   /* 1st tone: ā — red */
-  --tone-2: #F0892A;   /* 2nd tone: á — orange */
-  --tone-3: #2E9E4F;   /* 3rd tone: ǎ — green */
-  --tone-4: #3F7DC4;   /* 4th tone: à — blue */
-  --tone-5: var(--c-text-secondary); /* neutral tone */
+  /* ---- Tone colors (deprecated) ----
+     Per the style guide, tone color is off by default: the tone is shown
+     with the diacritic/number. A future setting can re-enable colors. */
+  --tone-1: var(--mz-text);
+  --tone-2: var(--mz-text);
+  --tone-3: var(--mz-text);
+  --tone-4: var(--mz-text);
+  --tone-5: var(--mz-text-muted);
 
-  /* ---- Spacing (4pt base grid) ---- */
-  --sp-1:  4px;
-  --sp-2:  8px;
-  --sp-3:  12px;
-  --sp-4:  16px;
-  --sp-5:  20px;
-  --sp-6:  24px;
-  --sp-8:  32px;
+  /* ---- Spacing (deprecated → --mz-space-*) ---- */
+  --sp-1: var(--mz-space-1);
+  --sp-2: var(--mz-space-2);
+  --sp-3: var(--mz-space-3);
+  --sp-4: var(--mz-space-4);
+  --sp-5: var(--mz-space-5);
+  --sp-6: var(--mz-space-6);
+  --sp-8: var(--mz-space-8);
   --sp-10: 40px;
   --sp-12: 48px;
   --sp-16: 64px;
 
-  /* ---- Legacy aliases (for existing components) ---- */
-  --spacing-xs:  var(--sp-2);
-  --spacing-sm:  var(--sp-2);
-  --spacing-md:  var(--sp-4);
-  --spacing-lg:  var(--sp-6);
-  --spacing-xl:  var(--sp-8);
+  --spacing-xs: var(--mz-space-2);
+  --spacing-sm: var(--mz-space-2);
+  --spacing-md: var(--mz-space-4);
+  --spacing-lg: var(--mz-space-6);
+  --spacing-xl: var(--mz-space-8);
   --spacing-xxl: var(--sp-12);
-  --color-background:   var(--c-bg);
-  --color-surface:      var(--c-surface);
-  --color-text:         var(--c-text);
-  --color-text-light:   var(--c-text-secondary);
-  --color-text-lighter: var(--c-text-tertiary);
-  --color-primary:      var(--c-blue);
-  --color-primary-light: var(--c-blue-light);
-  --color-secondary:    var(--c-amber);
+  --color-background: var(--mz-bg);
+  --color-surface: var(--mz-surface);
+  --color-text: var(--mz-text);
+  --color-text-light: var(--mz-text-muted);
+  --color-text-lighter: var(--mz-text-muted);
+  --color-primary: var(--mz-action);
+  --color-primary-light: var(--mz-brand);
+  --color-secondary: var(--c-amber);
   --color-secondary-light: var(--c-amber-light);
 
-  /* ---- Border radii ---- */
-  --r-xs:  6px;
-  --r-sm:  10px;
-  --r-md:  14px;
-  --r-lg:  20px;
-  --r-xl:  28px;
-  --r-full: 9999px;
-  --border-radius-sm: var(--r-sm);
-  --border-radius-md: var(--r-md);
-  --border-radius-lg: var(--r-lg);
+  /* ---- Border radii (deprecated → --mz-radius) ---- */
+  --r-xs: var(--mz-radius);
+  --r-sm: var(--mz-radius);
+  --r-md: var(--mz-radius);
+  --r-lg: var(--mz-radius);
+  --r-xl: var(--mz-radius);
+  --r-full: var(--mz-radius-pill);
+  --border-radius-sm: var(--mz-radius);
+  --border-radius-md: var(--mz-radius);
+  --border-radius-lg: var(--mz-radius);
 
-  /* ---- Shadows ---- */
-  --shadow-xs: 0 1px 4px rgba(0,0,0,0.05);
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
-  --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
-  --shadow-xl: 0 16px 48px rgba(0,0,0,0.14);
+  /* ---- Shadows (deprecated → --mz-shadow, the only elevation) ---- */
+  --shadow-xs: var(--mz-shadow);
+  --shadow-sm: var(--mz-shadow);
+  --shadow-md: var(--mz-shadow);
+  --shadow-lg: var(--mz-shadow);
+  --shadow-xl: var(--mz-shadow);
 
-  /* ---- Transitions ---- */
-  --t-fast:   150ms ease;
-  --t-normal: 250ms ease;
-  --t-slow:   400ms ease;
-  --t-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* ---- Transitions (deprecated → --mz-duration-* / --mz-ease) ----
+     No springs/bounces; respects prefers-reduced-motion via the tokens. */
+  --t-fast: var(--mz-duration-fast) var(--mz-ease);
+  --t-normal: var(--mz-duration-base) var(--mz-ease);
+  --t-slow: var(--mz-duration-base) var(--mz-ease);
+  --t-spring: var(--mz-duration-base) var(--mz-ease);
 
   /* ---- Safe Areas ---- */
   --ion-safe-area-top: env(safe-area-inset-top, 0);
@@ -127,29 +142,8 @@
   --ion-safe-area-right: env(safe-area-inset-right, 0);
 }
 
-/* ---- Dark mode ---- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --c-bg:          #000000;
-    --c-bg-secondary: #1C1C1E;
-    --c-bg-tertiary: #2C2C2E;
-    --c-surface:     #1C1C1E;
-    --c-surface-raised: #2C2C2E;
-    --c-text:        #FFFFFF;
-    --c-text-secondary: #EBEBF5CC;
-    --c-text-tertiary: #EBEBF599;
-    --c-separator:   rgba(255,255,255,0.08);
-    --c-overlay:     rgba(0,0,0,0.7);
-
-    --c-blue-bg:     #001933;
-    --c-green-bg:    #0D2B17;
-    --c-red-bg:      #2B0009;
-    --c-amber-bg:    #2B1C00;
-    --c-purple-bg:   #1B0030;
-    --c-gray-bg:     #1C1C1E;
-
-    --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
-    --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
-    --shadow-lg: 0 8px 32px rgba(0,0,0,0.5);
+    --c-overlay: rgba(0, 0, 0, 0.7);
   }
 }
