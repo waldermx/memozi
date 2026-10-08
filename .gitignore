@@ -58,3 +58,6 @@ Thumbs.db
 # JVM crash dumps
 replay_pid*.log
 hs_err_pid*.log
+
+# Local editor/agent settings
+.claude/
