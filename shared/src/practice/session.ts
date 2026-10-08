@@ -5,7 +5,8 @@
  * The UI drives it with the hanzi-writer quiz result of each character. Every
  * transition returns a new frozen state; the input state is never touched.
  * Once the last character is recorded the word gets a single binary rating:
- * Good when every character was written with zero mistakes, Again otherwise.
+ * Good when every character was written with zero mistakes and none was
+ * skipped, Again otherwise.
  */
 
 import { FSRSRating } from '../types/enums.js';
@@ -17,6 +18,8 @@ export type PracticeRating = FSRSRating.Good | FSRSRating.Again;
 /** Outcome of one character. */
 export interface CharResult {
   readonly mistakes: number;
+  /** True when the learner asked for the answer instead of writing it. */
+  readonly skipped: boolean;
 }
 
 /** One code point of the reference word, as the UI should render it. */
@@ -48,8 +51,10 @@ export interface WordPracticeState {
   readonly current: PracticeStep | null;
   readonly isComplete: boolean;
   readonly perCharMistakes: readonly number[];
+  /** One flag per finished character: true when it was skipped. */
+  readonly skipped: readonly boolean[];
   readonly totalMistakes: number;
-  /** Null until the session is complete. */
+  /** Null until complete. Good iff no mistakes and nothing skipped. */
   readonly rating: PracticeRating | null;
   readonly reference: WordReference;
 }
@@ -75,9 +80,31 @@ export function startWordPractice(input: PracticeWordInput): WordPracticeState {
  * @throws {RangeError} when `mistakes` is not a non-negative integer.
  */
 export function recordCharResult(state: WordPracticeState, attempt: CharAttempt): WordPracticeState {
-  assertValidMistakes(attempt.mistakes);
+  return appendResult(state, attempt.mistakes, false);
+}
+
+/**
+ * Gives up on the current character (show the answer / skip) and moves on.
+ * A skipped character is a failure: the word will be rated Again. Mistakes made
+ * before giving up can be passed and are kept. No-op on a complete session.
+ *
+ * @throws {RangeError} when `mistakes` is not a non-negative integer.
+ */
+export function skipCharacter(
+  state: WordPracticeState,
+  attempt: CharAttempt = { mistakes: 0 },
+): WordPracticeState {
+  return appendResult(state, attempt.mistakes, true);
+}
+
+function appendResult(
+  state: WordPracticeState,
+  mistakes: number,
+  skipped: boolean,
+): WordPracticeState {
+  assertValidMistakes(mistakes);
   if (state.isComplete) return state;
-  return buildState(state.wordId, state.steps, [...state.results, { mistakes: attempt.mistakes }]);
+  return buildState(state.wordId, state.steps, [...state.results, { mistakes, skipped }]);
 }
 
 function assertValidMistakes(mistakes: number): void {
@@ -95,12 +122,14 @@ function buildState(
   const isComplete = currentStep >= steps.length;
   const current = isComplete ? null : (steps[currentStep] ?? null);
   const perCharMistakes = results.map((r) => r.mistakes);
+  const skipped = results.map((r) => r.skipped);
   const totalMistakes = perCharMistakes.reduce((sum, m) => sum + m, 0);
   const word = steps[0]?.word ?? '';
 
   let rating: PracticeRating | null = null;
   if (isComplete) {
-    rating = totalMistakes === 0 ? FSRSRating.Good : FSRSRating.Again;
+    const clean = totalMistakes === 0 && !skipped.includes(true);
+    rating = clean ? FSRSRating.Good : FSRSRating.Again;
   }
 
   return Object.freeze({
@@ -112,6 +141,7 @@ function buildState(
     current,
     isComplete,
     perCharMistakes: Object.freeze(perCharMistakes),
+    skipped: Object.freeze(skipped),
     totalMistakes,
     rating,
     reference: buildReference(word, steps, currentStep, current),
