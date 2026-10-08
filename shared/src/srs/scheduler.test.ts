@@ -139,3 +139,64 @@ describe('scheduleBinary — determinism and purity', () => {
     expect(result.card.elapsedDays).toBe(7);
   });
 });
+
+describe('scheduleBinary — learning steps (ts-fsrs 5)', () => {
+  const MINUTE = 60_000;
+
+  it('new cards start at learning step 0', () => {
+    expect(createNewSrsCard(REVIEW_AT).learningSteps).toBe(0);
+  });
+
+  it('a correct first review moves to the next learning step (10 minutes by default)', () => {
+    const result = scheduleBinary(makeCard(), BinaryRating.correct(), params, REVIEW_AT);
+    expect(result.card.state).toBe(CardState.Learning);
+    expect(result.card.learningSteps).toBe(1);
+    expect(result.card.due.getTime() - REVIEW_AT.getTime()).toBe(10 * MINUTE);
+  });
+
+  it('an incorrect first review stays on step 0 and comes back in 1 minute', () => {
+    const result = scheduleBinary(makeCard(), BinaryRating.incorrect(), params, REVIEW_AT);
+    expect(result.card.state).toBe(CardState.Learning);
+    expect(result.card.learningSteps).toBe(0);
+    expect(result.card.due.getTime() - REVIEW_AT.getTime()).toBe(1 * MINUTE);
+  });
+
+  it('graduates to Review after passing the last learning step', () => {
+    const first = scheduleBinary(makeCard(), BinaryRating.correct(), params, REVIEW_AT).card;
+    const second = scheduleBinary(first, BinaryRating.correct(), params, first.due).card;
+    expect(second.state).toBe(CardState.Review);
+    expect(second.scheduledDays).toBeGreaterThanOrEqual(1);
+  });
+
+  it('with no learning steps, a correct first review goes straight to Review', () => {
+    const result = scheduleBinary(makeCard(), BinaryRating.correct(), params, REVIEW_AT, {
+      learningSteps: [],
+      relearningSteps: [],
+    });
+    expect(result.card.state).toBe(CardState.Review);
+  });
+
+  it('computes elapsedDays from lastReview, ignoring the stored value', () => {
+    const card = makeCard({
+      state: CardState.Review,
+      stability: 5,
+      difficulty: 5,
+      reps: 2,
+      lastReview: new Date('2026-01-01T10:00:00Z'),
+      elapsedDays: 999,
+      scheduledDays: 3,
+    });
+    const reviewedAt = new Date('2026-01-04T10:00:00Z');
+    const result = scheduleBinary(card, BinaryRating.correct(), params, reviewedAt);
+    expect(result.card.elapsedDays).toBe(3);
+  });
+
+  it('accepts migrated legacy 17-weight parameters', () => {
+    const legacy = FSRSParameters.fromArray([
+      0.40255, 1.18385, 3.1262, 15.4722, 7.2102, 0.5316, 1.0651, 0.06046, 1.616, 0.1544, 1.0071,
+      1.9395, 0.11, 0.29605, 2.2698, 0.2994, 2.9898,
+    ]);
+    const result = scheduleBinary(makeCard(), BinaryRating.correct(), legacy, REVIEW_AT);
+    expect(result.card.stability).toBeGreaterThan(0);
+  });
+});

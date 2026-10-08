@@ -66,6 +66,11 @@ describe('FSRSService', () => {
       expect(rating).toBe(Rating.Good);
     });
 
+    it('lets FSRS manage short-term intervals (no learning steps column in the DB)', () => {
+      const first = service.scheduleBinary(makeCard(), BinaryRating.correct(), params, REVIEW_AT);
+      expect(first.updatedCard.state).toBe(CardState.Review);
+    });
+
     it('does not mutate the original card', () => {
       const card = makeCard();
       service.scheduleBinary(card, BinaryRating.incorrect(2), params, REVIEW_AT);
