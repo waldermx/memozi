@@ -51,7 +51,7 @@ services:
       retries: 5
 
   api:
-    image: ghcr.io/waldermx/lingo2-api:${IMAGE_TAG:-latest}
+    image: ghcr.io/waldermx/memozi-api:${IMAGE_TAG:-latest}
     restart: unless-stopped
     networks:
       - internal
@@ -72,36 +72,36 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
       # Router: match requests to api subdomain
-      - "traefik.http.routers.lingo2-api.rule=Host(`${API_DOMAIN}`)"
-      - "traefik.http.routers.lingo2-api.entrypoints=websecure"
-      - "traefik.http.routers.lingo2-api.tls=true"
-      - "traefik.http.routers.lingo2-api.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.memozi-api.rule=Host(`${API_DOMAIN}`)"
+      - "traefik.http.routers.memozi-api.entrypoints=websecure"
+      - "traefik.http.routers.memozi-api.tls=true"
+      - "traefik.http.routers.memozi-api.tls.certresolver=letsencrypt"
       # Service: connect to backend port
-      - "traefik.http.services.lingo2-api.loadbalancer.server.port=3000"
+      - "traefik.http.services.memozi-api.loadbalancer.server.port=3000"
       # Middleware: security headers
-      - "traefik.http.routers.lingo2-api.middlewares=lingo2-headers@docker"
-      - "traefik.http.middlewares.lingo2-headers.headers.stsSeconds=31536000"
-      - "traefik.http.middlewares.lingo2-headers.headers.stsIncludeSubdomains=true"
-      - "traefik.http.middlewares.lingo2-headers.headers.forceSTSHeader=true"
+      - "traefik.http.routers.memozi-api.middlewares=memozi-headers@docker"
+      - "traefik.http.middlewares.memozi-headers.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.memozi-headers.headers.stsIncludeSubdomains=true"
+      - "traefik.http.middlewares.memozi-headers.headers.forceSTSHeader=true"
 
   frontend:
-    image: ghcr.io/waldermx/lingo2-frontend:${IMAGE_TAG:-latest}
+    image: ghcr.io/waldermx/memozi-frontend:${IMAGE_TAG:-latest}
     restart: unless-stopped
     networks:
       - traefik-public
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=traefik-public"
-      - "traefik.http.routers.lingo2-frontend.rule=Host(`${APP_DOMAIN}`) || Host(`www.${APP_DOMAIN}`)"
-      - "traefik.http.routers.lingo2-frontend.entrypoints=websecure"
-      - "traefik.http.routers.lingo2-frontend.tls=true"
-      - "traefik.http.routers.lingo2-frontend.tls.certresolver=letsencrypt"
-      - "traefik.http.services.lingo2-frontend.loadbalancer.server.port=80"
+      - "traefik.http.routers.memozi-frontend.rule=Host(`${APP_DOMAIN}`) || Host(`www.${APP_DOMAIN}`)"
+      - "traefik.http.routers.memozi-frontend.entrypoints=websecure"
+      - "traefik.http.routers.memozi-frontend.tls=true"
+      - "traefik.http.routers.memozi-frontend.tls.certresolver=letsencrypt"
+      - "traefik.http.services.memozi-frontend.loadbalancer.server.port=80"
       # Redirect www → apex
-      - "traefik.http.middlewares.lingo2-www-redirect.redirectregex.regex=^https://www\\.(.+)"
-      - "traefik.http.middlewares.lingo2-www-redirect.redirectregex.replacement=https://$${1}"
-      - "traefik.http.middlewares.lingo2-www-redirect.redirectregex.permanent=true"
-      - "traefik.http.routers.lingo2-frontend.middlewares=lingo2-www-redirect@docker"
+      - "traefik.http.middlewares.memozi-www-redirect.redirectregex.regex=^https://www\\.(.+)"
+      - "traefik.http.middlewares.memozi-www-redirect.redirectregex.replacement=https://$${1}"
+      - "traefik.http.middlewares.memozi-www-redirect.redirectregex.permanent=true"
+      - "traefik.http.routers.memozi-frontend.middlewares=memozi-www-redirect@docker"
 
   prometheus:
     image: prom/prometheus:latest

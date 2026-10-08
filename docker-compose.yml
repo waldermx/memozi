@@ -21,15 +21,15 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_USER: lingo2
-      POSTGRES_PASSWORD: lingo2dev
-      POSTGRES_DB: lingo2
+      POSTGRES_USER: memozi
+      POSTGRES_PASSWORD: memozidev
+      POSTGRES_DB: memozi
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U lingo2 -d lingo2"]
+      test: ["CMD-SHELL", "pg_isready -U memozi -d memozi"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -58,7 +58,7 @@ services:
     env_file: ./backend/.env
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://lingo2:lingo2dev@postgres:5432/lingo2?schema=public
+      DATABASE_URL: postgresql://memozi:memozidev@postgres:5432/memozi?schema=public
     ports:
       - "3000:3000"
     volumes:

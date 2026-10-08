@@ -143,7 +143,7 @@ jobs:
           context: .
           file: ./backend/Dockerfile
           push: false
-          tags: lingo2-api:ci
+          tags: memozi-api:ci
           cache-from: type=gha,scope=ci-api
           cache-to: type=gha,mode=max,scope=ci-api
 
@@ -153,6 +153,6 @@ jobs:
           context: .
           file: ./frontend/Dockerfile
           push: false
-          tags: lingo2-frontend:ci
+          tags: memozi-frontend:ci
           cache-from: type=gha,scope=ci-frontend
           cache-to: type=gha,mode=max,scope=ci-frontend
