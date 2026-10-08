@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 import { FSRSRating } from '../types/enums.js';
-import { recordCharResult, startWordPractice, type WordPracticeState } from './session.js';
+import {
+  recordCharResult,
+  skipCharacter,
+  startWordPractice,
+  type WordPracticeState,
+} from './session.js';
 
 const AI = { id: 1, simplified: '爱', pinyin: 'ài' };
 const BABA = { id: 3, simplified: '爸爸', pinyin: 'bà ba' };
@@ -155,4 +160,65 @@ describe('recordCharResult', () => {
       expect(() => recordCharResult(startWordPractice(AI), { mistakes })).toThrow(RangeError);
     },
   );
+});
+
+describe('skipCharacter', () => {
+  it('moves to the next character and flags the skipped one', () => {
+    const state = skipCharacter(startWordPractice(BUKEQI));
+
+    expect(state.currentStep).toBe(1);
+    expect(state.skipped).toEqual([true]);
+    expect(state.results).toEqual([{ mistakes: 0, skipped: true }]);
+    expect(state.reference.chars[0]?.isDone).toBe(true);
+  });
+
+  it('rates the word Again even with zero mistakes elsewhere', () => {
+    let state = recordCharResult(startWordPractice(BUKEQI), { mistakes: 0 });
+    state = skipCharacter(state);
+    state = recordCharResult(state, { mistakes: 0 });
+
+    expect(state.isComplete).toBe(true);
+    expect(state.totalMistakes).toBe(0);
+    expect(state.skipped).toEqual([false, true, false]);
+    expect(state.rating).toBe(FSRSRating.Again);
+  });
+
+  it('keeps the mistakes made before giving up', () => {
+    const state = skipCharacter(startWordPractice(AI), { mistakes: 2 });
+
+    expect(state.perCharMistakes).toEqual([2]);
+    expect(state.totalMistakes).toBe(2);
+    expect(state.rating).toBe(FSRSRating.Again);
+  });
+
+  it('records written characters with skipped = false', () => {
+    const state = writeAll(startWordPractice(BABA), [0, 0]);
+
+    expect(state.skipped).toEqual([false, false]);
+    expect(state.results).toEqual([
+      { mistakes: 0, skipped: false },
+      { mistakes: 0, skipped: false },
+    ]);
+    expect(state.rating).toBe(FSRSRating.Good);
+  });
+
+  it('returns the same state when skipping after completion', () => {
+    const done = skipCharacter(startWordPractice(AI));
+
+    expect(skipCharacter(done)).toBe(done);
+  });
+
+  it('does not mutate the input state', () => {
+    const start = deepFreeze(startWordPractice(BABA));
+
+    const next = skipCharacter(start);
+
+    expect(next).not.toBe(start);
+    expect(start.skipped).toEqual([]);
+    expect(start.currentStep).toBe(0);
+  });
+
+  it('rejects an invalid mistake count', () => {
+    expect(() => skipCharacter(startWordPractice(AI), { mistakes: -2 })).toThrow(RangeError);
+  });
 });
