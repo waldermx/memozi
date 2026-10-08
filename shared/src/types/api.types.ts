@@ -154,7 +154,7 @@ export interface GetDueCardsResponse {
  * Payload for submitting a binary review result from HanziWriter.
  *
  * The `correct` field is the authoritative outcome determined by HanziWriter's
- * quiz mode `onComplete` callback. Lingo2 does NOT allow the user to override this.
+ * quiz mode `onComplete` callback. MemoZi does NOT allow the user to override this.
  */
 export interface SubmitReviewRequest {
   cardId: string;

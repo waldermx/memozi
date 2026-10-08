@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# Lingo2 Backend — Production Dockerfile
+# MemoZi Backend — Production Dockerfile
 # Build context: monorepo root  (docker build -f backend/Dockerfile .)
 # Multi-stage build: builder (compile) → runner (minimal Alpine image)
 # ─────────────────────────────────────────────────────────────────────────────

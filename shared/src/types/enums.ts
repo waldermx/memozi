@@ -59,7 +59,7 @@ export enum CardState {
 /**
  * FSRS-5 review rating values.
  *
- * In Lingo2, only Again (1) and Good (3) are used because HanziWriter
+ * In MemoZi, only Again (1) and Good (3) are used because HanziWriter
  * determines correctness automatically (binary). Hard (2) and Easy (4)
  * are defined here for future extensibility but are not exposed in the UI.
  *

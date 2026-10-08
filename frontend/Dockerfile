@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# Lingo2 Frontend — Production Dockerfile
+# MemoZi Frontend — Production Dockerfile
 # Build context: monorepo root  (docker build -f frontend/Dockerfile .)
 # Multi-stage build: builder (Vite) → runner (nginx static)
 #

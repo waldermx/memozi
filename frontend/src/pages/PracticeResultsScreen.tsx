@@ -77,9 +77,9 @@ const PracticeResultsScreen: React.FC = () => {
   }, []);
 
   const handleShare = () => {
-    const text = `Acabo de practicar ${total} caracteres chinos con una precisión del ${percentage}% en Lingo2! 🈶`;
+    const text = `Acabo de practicar ${total} caracteres chinos con una precisión del ${percentage}% en MemoZi! 🈶`;
     if (navigator.share) {
-      navigator.share({ title: 'Lingo2 — Resultados', text });
+      navigator.share({ title: 'MemoZi — Resultados', text });
     } else {
       navigator.clipboard.writeText(text);
     }

@@ -113,7 +113,7 @@ export async function createApp(): Promise<FastifyInstance> {
       openapi: {
         openapi: '3.1.0',
         info: {
-          title: 'Lingo2 API',
+          title: 'MemoZi API',
           description:
             'Chinese language learning app with FSRS-5 spaced repetition. ' +
             'Binary review model: HanziWriter determines correctness automatically.',

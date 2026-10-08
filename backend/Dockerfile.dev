@@ -1,4 +1,4 @@
-# Lingo2 Backend — Development Dockerfile with hot reload
+# MemoZi Backend — Development Dockerfile with hot reload
 # Build context: monorepo root  (docker compose up — context: .)
 FROM node:22-alpine
 

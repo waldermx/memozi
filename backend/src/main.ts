@@ -37,7 +37,7 @@ async function main(): Promise<void> {
 
   try {
     await app.listen({ port: PORT, host: HOST });
-    app.log.info({ port: PORT, host: HOST }, `Lingo2 API listening`);
+    app.log.info({ port: PORT, host: HOST }, `MemoZi API listening`);
   } catch (err) {
     app.log.fatal({ err }, 'Failed to start server');
     process.exit(1);
