@@ -1,5 +1,5 @@
 /**
- * @file src/domain/value-objects/BinaryRating.ts
+ * @file shared/src/srs/BinaryRating.ts
  * @description Immutable value object representing the binary review outcome from HanziWriter.
  *
  * MemoZi uses a binary correctness model: HanziWriter's quiz mode fires an
@@ -13,7 +13,7 @@
  * for the learner during active recall.
  */
 
-import { FSRSRating } from '@memozi/shared';
+import { FSRSRating } from '../types/enums.js';
 import { type Grade, Rating } from 'ts-fsrs';
 
 // ─── Types ────────────────────────────────────────────────────────────────────

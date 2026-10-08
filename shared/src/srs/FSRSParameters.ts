@@ -1,5 +1,5 @@
 /**
- * @file src/domain/value-objects/FSRSParameters.ts
+ * @file shared/src/srs/FSRSParameters.ts
  * @description Immutable value object encapsulating the 17 FSRS-5 parameters (w[0..16]).
  *
  * The FSRS-5 algorithm uses 17 trainable parameters to calculate memory stability

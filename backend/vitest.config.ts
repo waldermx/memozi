@@ -8,9 +8,9 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'html'],
-      // Iter 2: Cover the domain service layer and value objects.
+      // Iter 2: Cover the domain service layer (SRS value objects now live in shared).
       // Entity coverage increases in Iter 3 (repositories) and Iter 4 (use cases).
-      include: ['src/domain/services/**', 'src/domain/value-objects/**'],
+      include: ['src/domain/services/**'],
       thresholds: {
         lines: 90,
         functions: 90,
