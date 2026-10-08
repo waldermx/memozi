@@ -5,6 +5,7 @@
 #   - lint       : ESLint on all workspaces
 #   - typecheck  : tsc --noEmit on all workspaces
 #   - test-backend  : Vitest with coverage gate
+#   - test-shared   : Vitest with coverage gate
 #   - test-frontend : Vitest with coverage gate
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -98,6 +99,34 @@ jobs:
           name: backend-coverage
           path: backend/coverage/
 
+  # ── Shared Tests ─────────────────────────────────────────────────────────────
+  test-shared:
+    name: Shared Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Run Vitest with coverage
+        run: pnpm --filter=@memozi/shared test
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shared-coverage
+          path: shared/coverage/
+
   # ── Frontend Tests ───────────────────────────────────────────────────────────
   test-frontend:
     name: Frontend Tests
@@ -130,7 +159,7 @@ jobs:
   build-docker:
     name: Validate Docker builds
     runs-on: ubuntu-latest
-    needs: [lint, typecheck, test-backend]
+    needs: [lint, typecheck, test-backend, test-shared]
     steps:
       - uses: actions/checkout@v4
 
