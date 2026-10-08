@@ -3,7 +3,7 @@ const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/v1';
 
 function getToken(): string | null {
   try {
-    const stored = localStorage.getItem('lingo2-user');
+    const stored = localStorage.getItem('memozi-user');
     if (!stored) return null;
     const parsed = JSON.parse(stored) as { state?: { token?: string } };
     return parsed?.state?.token ?? null;

@@ -70,6 +70,6 @@ export const useCharactersStore = create<CharactersState & CharactersActions>()(
         set((s) => { s.cards = {}; s.lastSynced = null; });
       },
     })),
-    { name: 'lingo2-characters' },
+    { name: 'memozi-characters' },
   ),
 );
