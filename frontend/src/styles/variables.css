@@ -53,10 +53,9 @@
   --c-red: var(--mz-error);
   --c-red-light: color-mix(in srgb, var(--mz-error) 70%, var(--mz-surface));
   --c-red-bg: color-mix(in srgb, var(--mz-error) 12%, var(--mz-surface));
-  /* No warning/amber token in the style guide yet — kept as is. */
-  --c-amber: #ff9f0a;
-  --c-amber-light: #ffb84d;
-  --c-amber-bg: color-mix(in srgb, var(--c-amber) 12%, var(--mz-surface));
+  --c-amber: var(--mz-warning);
+  --c-amber-light: color-mix(in srgb, var(--mz-warning) 70%, var(--mz-surface));
+  --c-amber-bg: color-mix(in srgb, var(--mz-warning) 12%, var(--mz-surface));
   /* Purple is not part of the palette; mapped to brand. */
   --c-purple: var(--mz-brand);
   --c-purple-light: color-mix(in srgb, var(--mz-brand) 70%, var(--mz-surface));
@@ -65,13 +64,15 @@
   --c-gray-light: var(--mz-line);
   --c-gray-bg: var(--mz-bg);
 
-  /* ---- Character card state colors (deprecated) ---- */
-  --card-new: var(--c-gray); /* Sin estudiar */
-  --card-learning: var(--c-blue); /* Aprendiendo */
-  --card-fresh: var(--c-green); /* Review: due > 2d */
-  --card-due: var(--c-amber); /* Para repasar hoy */
-  --card-overdue: var(--c-red); /* Vencido */
-  --card-mastered: var(--c-purple); /* Dominado: stability > 30d */
+  /* ---- Character card state colors (deprecated) ----
+     Per the style guide: new = muted, learning = brand, due = warning,
+     mastered = success. Always paired with a text label or icon. */
+  --card-new: var(--mz-text-muted); /* Sin estudiar */
+  --card-learning: var(--mz-brand); /* Aprendiendo */
+  --card-fresh: var(--mz-success); /* Review: due > 2d */
+  --card-due: var(--mz-warning); /* Para repasar hoy */
+  --card-overdue: var(--mz-error); /* Vencido */
+  --card-mastered: var(--mz-success); /* Dominado: stability > 30d */
 
   /* ---- Tone colors (deprecated) ----
      Per the style guide, tone color is off by default: the tone is shown

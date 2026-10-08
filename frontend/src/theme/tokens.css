@@ -25,6 +25,10 @@
   --mz-on-action: #ffffff;
   --mz-success: #2f7d5b;
   --mz-error: #b4483c;
+  /* "Due today" and notices. */
+  --mz-warning: #8a5a00;
+  /* Text on --mz-warning. In light only white passes on #8a5a00 (5.9:1, black is 3.5:1). */
+  --mz-on-warning: #ffffff;
   --mz-line: #dde1e8;
 
   /* ---- Typography ---- */
@@ -81,6 +85,9 @@
     --mz-on-action: #121417;
     --mz-success: #4fa37f;
     --mz-error: #e07a6e;
+    --mz-warning: #d9a441;
+    /* White on #d9a441 is ~2.3:1, so dark ink. */
+    --mz-on-warning: #121417;
     --mz-line: #2a2e34;
 
     --mz-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
