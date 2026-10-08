@@ -34,6 +34,7 @@ Domain services have no framework dependencies and are unit-tested in isolation
 | Workflow | What it does |
 |---|---|
 | `ci.yml` | lint, typecheck and tests on every push |
+| `licenses.yml` | checks every npm dependency license against `licenses.allow.json` |
 | `cd-staging.yml` | builds API and frontend images, pushes to GHCR, deploys over SSH, runs `prisma migrate deploy` |
 | `cd-production.yml` | same flow, manual trigger, with a smoke test |
 | `android-apk.yml` | builds a debug APK with Capacitor + Gradle and uploads it as an artifact |
@@ -50,6 +51,26 @@ pnpm dev                    # api + frontend in parallel
 ```
 
 Copy `backend/.env.example` to `backend/.env` first.
+
+## Contributing & licensing
+
+Contributions are welcome. Before your first pull request is merged you need to accept the
+[Contributor License Agreement](CLA.md): a bot comments on the pull request and you reply to
+accept it once. You keep the copyright in your work; the agreement lets the project owner also
+license it under other terms (MemoZi is open core), and it stays available under the project's open
+source license.
+
+New dependencies must pass the license check (`pnpm licenses:check`, policy in
+[`licenses.allow.json`](licenses.allow.json)). After changing production dependencies, run
+`pnpm licenses:notices` to refresh [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
+
+## License
+
+- **Code**: [GNU Affero General Public License v3.0 or later](LICENSE) (`AGPL-3.0-or-later`).
+- **Vocabulary data** in [`data/`](data/): [CC BY-SA 4.0](data/LICENSE), because it is derived
+  from CC-CEDICT and other sources credited in [`data/NOTICE.md`](data/NOTICE.md).
+- **Third-party components**: npm dependencies, and data and fonts that will be bundled, keep their
+  own licenses. See [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
 ## Status
 
