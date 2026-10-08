@@ -176,6 +176,33 @@ describe('Ionic theme mapping', () => {
   );
 
   it.each(schemes)(
+    '%s: shade/tint literals follow Ionic (12% black / 10% white mix)',
+    (_, ion, tokens) => {
+      const toHex = (c: number[]) =>
+        '#' + c.map((x) => Math.round(x).toString(16).padStart(2, '0')).join('');
+      for (const name of IONIC_COLORS) {
+        const base = parseHex(resolve(ion[`--ion-color-${name}`], tokens));
+        expect(ion[`--ion-color-${name}-shade`]?.toLowerCase(), `${name} shade`).toBe(
+          toHex(base.map((x) => x * 0.88)),
+        );
+        expect(ion[`--ion-color-${name}-tint`]?.toLowerCase(), `${name} tint`).toBe(
+          toHex(base.map((x) => x + (255 - x) * 0.1)),
+        );
+      }
+    },
+  );
+
+  it('dark Ionic block also targets :root.ios and :root.md', () => {
+    const media = themeCss.indexOf('@media (prefers-color-scheme: dark)');
+    const selector = themeCss.slice(
+      themeCss.indexOf('{', media) + 1,
+      themeCss.indexOf('{', themeCss.indexOf('{', media) + 1),
+    );
+    expect(selector).toMatch(/:root\.ios/);
+    expect(selector).toMatch(/:root\.md/);
+  });
+
+  it.each(schemes)(
     '%s: every Ionic color has a contrast color of at least 4.5:1',
     (_, ion, tokens) => {
       for (const name of IONIC_COLORS) {
