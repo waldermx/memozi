@@ -4,7 +4,7 @@ import { UserRepository } from '../../database/prisma/repositories/UserRepositor
 import { CharacterRepository } from '../../database/prisma/repositories/CharacterRepository.js';
 import { CardRepository } from '../../database/prisma/repositories/CardRepository.js';
 import { CompleteOnboarding } from '../../../application/onboarding/CompleteOnboarding.js';
-import { SupportedLocale } from '@lingo2/shared';
+import { SupportedLocale } from '@memozi/shared';
 
 const OnboardingBody = z.object({
   startingHSKLevel: z.union([z.literal(1), z.literal(2)]),

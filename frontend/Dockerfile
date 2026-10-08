@@ -3,7 +3,7 @@
 # Build context: monorepo root  (docker build -f frontend/Dockerfile .)
 # Multi-stage build: builder (Vite) → runner (nginx static)
 #
-# Requires monorepo root as context because frontend depends on @lingo2/shared.
+# Requires monorepo root as context because frontend depends on @memozi/shared.
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ── Stage 1: Builder ─────────────────────────────────────────────────────────

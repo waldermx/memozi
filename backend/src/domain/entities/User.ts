@@ -10,7 +10,7 @@
  * via parameter optimization once enough review data is collected.
  */
 
-import { SupportedLocale } from '@lingo2/shared';
+import { SupportedLocale } from '@memozi/shared';
 import { FSRSParameters } from '../value-objects/FSRSParameters.js';
 
 export type AuthProvider = 'local' | 'google';

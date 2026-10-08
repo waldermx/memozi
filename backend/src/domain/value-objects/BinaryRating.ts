@@ -13,7 +13,7 @@
  * for the learner during active recall.
  */
 
-import { FSRSRating } from '@lingo2/shared';
+import { FSRSRating } from '@memozi/shared';
 import { type Grade, Rating } from 'ts-fsrs';
 
 // ─── Types ────────────────────────────────────────────────────────────────────

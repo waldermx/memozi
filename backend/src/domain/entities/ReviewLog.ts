@@ -8,7 +8,7 @@
  * @design Immutable by convention — logs are never updated, only created.
  */
 
-import { CardState, FSRSRating } from '@lingo2/shared';
+import { CardState, FSRSRating } from '@memozi/shared';
 
 export class ReviewLog {
   readonly id: string;

@@ -13,7 +13,7 @@ import { FSRSService } from './FSRSService.js';
 import { BinaryRating } from '../value-objects/BinaryRating.js';
 import { FSRSParameters } from '../value-objects/FSRSParameters.js';
 import { Card } from '../entities/Card.js';
-import { CardState } from '@lingo2/shared';
+import { CardState } from '@memozi/shared';
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 

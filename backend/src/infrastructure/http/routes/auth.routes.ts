@@ -6,7 +6,7 @@ import { GamificationRepository } from '../../database/prisma/repositories/Gamif
 import { RegisterUser } from '../../../application/auth/RegisterUser.js';
 import { LoginUser } from '../../../application/auth/LoginUser.js';
 import { RotateRefreshToken } from '../../../application/auth/RotateRefreshToken.js';
-import type { AuthResponse } from '@lingo2/shared';
+import type { AuthResponse } from '@memozi/shared';
 
 const REFRESH_COOKIE = 'refresh_token';
 const REFRESH_TTL_SEC = 7 * 24 * 60 * 60;
@@ -169,6 +169,6 @@ function toUserDto(user: import('../../../domain/entities/User.js').User) {
     avatarUrl: user.avatarUrl,
     preferredLocale: user.preferredLocale,
     onboardingCompleted: user.onboardingCompleted,
-    startingHSKLevel: user.startingHskLevel as import('@lingo2/shared').HSKLevel | null,
+    startingHSKLevel: user.startingHskLevel as import('@memozi/shared').HSKLevel | null,
   };
 }

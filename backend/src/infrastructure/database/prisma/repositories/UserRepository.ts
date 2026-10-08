@@ -1,7 +1,7 @@
 import type { PrismaClient } from '@prisma/client';
 import type { IUserRepository } from '../../../../domain/ports/outbound/IUserRepository.js';
 import { User } from '../../../../domain/entities/User.js';
-import { SupportedLocale } from '@lingo2/shared';
+import { SupportedLocale } from '@memozi/shared';
 import { FSRSParameters } from '../../../../domain/value-objects/FSRSParameters.js';
 
 export class UserRepository implements IUserRepository {

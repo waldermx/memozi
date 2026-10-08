@@ -1,6 +1,6 @@
 import type { IUserRepository } from '../../domain/ports/outbound/IUserRepository.js';
 import type { User } from '../../domain/entities/User.js';
-import type { SupportedLocale } from '@lingo2/shared';
+import type { SupportedLocale } from '@memozi/shared';
 import { UserNotFoundError } from '../../shared/AppError.js';
 
 export interface UpdateUserSettingsInput {

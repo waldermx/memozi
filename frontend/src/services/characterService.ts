@@ -1,5 +1,5 @@
 import apiFetch from './api';
-import type { CharacterDto, CharacterWithCardDto } from '@lingo2/shared';
+import type { CharacterDto, CharacterWithCardDto } from '@memozi/shared';
 
 export interface CharacterSearchResult {
   id: string;

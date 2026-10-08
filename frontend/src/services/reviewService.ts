@@ -5,7 +5,7 @@ import type {
   SubmitReviewRequest,
   SubmitReviewResponse,
   ReviewStatsResponse,
-} from '@lingo2/shared';
+} from '@memozi/shared';
 
 export const reviewService = {
   async getDue(limit = 20): Promise<GetDueCardsResponse> {

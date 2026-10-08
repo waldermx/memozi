@@ -5,7 +5,7 @@ import type {
   CharacterSearchOptions,
 } from '../../../../domain/ports/outbound/ICharacterRepository.js';
 import { Character } from '../../../../domain/entities/Character.js';
-import { type SupportedLocale, type HSKLevel } from '@lingo2/shared';
+import { type SupportedLocale, type HSKLevel } from '@memozi/shared';
 
 type CharacterRow = Prisma.CharacterGetPayload<{
   include: { translations: true; examples: true };

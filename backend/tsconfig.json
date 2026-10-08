@@ -16,7 +16,7 @@
     "declarationMap": true,
     "sourceMap": true,
     "paths": {
-      "@lingo2/shared": ["../shared/src/index.ts"]
+      "@memozi/shared": ["../shared/src/index.ts"]
     }
   },
   "include": ["src/**/*", "prisma/seed/**/*", "../shared/src/**/*"],

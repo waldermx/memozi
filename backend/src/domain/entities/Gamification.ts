@@ -12,7 +12,7 @@
  * curve a business/design decision, not a database concern.
  */
 
-import { AchievementType } from '@lingo2/shared';
+import { AchievementType } from '@memozi/shared';
 
 // ─── XP Level Table ───────────────────────────────────────────────────────────
 
