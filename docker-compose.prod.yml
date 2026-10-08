@@ -18,6 +18,11 @@
 #   - Frontend is served at yourdomain.com and www.yourdomain.com
 # ─────────────────────────────────────────────────────────────────────────────
 
+# Pin the Compose project name so the stack keeps using the existing lingo2_*
+# volumes and network after the deploy dir moved to /opt/memozi. Remove only as
+# part of the planned data migration.
+name: lingo2
+
 services:
   postgres:
     image: postgres:16-alpine
