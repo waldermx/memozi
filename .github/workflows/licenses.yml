@@ -1,0 +1,41 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Licenses — checks every npm dependency (prod and dev) against
+# licenses.allow.json. See scripts/check-licenses.mjs.
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Licenses
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: '10.19.0'
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  license-check:
+    name: License check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'pnpm'
+
+      # Scripts are skipped: the check only needs the store and the lockfile.
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+
+      - name: Unit tests for the license policy
+        run: pnpm test:scripts
+
+      - name: Check dependency licenses
+        run: pnpm licenses:check
