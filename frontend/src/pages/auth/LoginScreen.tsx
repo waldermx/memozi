@@ -85,7 +85,7 @@ const LoginScreen: React.FC = () => {
                 fontWeight: 700,
                 color: 'var(--c-text)',
                 margin: 0,
-              }}>Lingo2</h1>
+              }}>MemoZi</h1>
               <p style={{
                 fontFamily: 'var(--font-family)',
                 fontSize: 15,

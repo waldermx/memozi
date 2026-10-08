@@ -3,7 +3,7 @@ import type { ICharacterRepository } from '../../domain/ports/outbound/ICharacte
 import type { IUserRepository } from '../../domain/ports/outbound/IUserRepository.js';
 import type { Card } from '../../domain/entities/Card.js';
 import type { Character } from '../../domain/entities/Character.js';
-import type { SupportedLocale } from '@lingo2/shared';
+import type { SupportedLocale } from '@memozi/shared';
 import { UserNotFoundError } from '../../shared/AppError.js';
 
 export interface DueCardItem {

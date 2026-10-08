@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Lingo2 Database Schema (Prisma)
+// MemoZi Database Schema (Prisma)
 //
 // Dual-database strategy:
 //   Development:  SQLite   (DATABASE_URL="file:./dev.db")

@@ -1,5 +1,5 @@
 import apiFetch from './api';
-import type { UserProgressResponse, AchievementDto } from '@lingo2/shared';
+import type { UserProgressResponse, AchievementDto } from '@memozi/shared';
 
 export const gamificationService = {
   async getProgress(): Promise<UserProgressResponse> {

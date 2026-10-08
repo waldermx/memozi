@@ -19,12 +19,12 @@ export default defineConfig({
       },
     },
     alias: {
-      '@lingo2/shared': resolve(__dirname, '../shared/src/index.ts'),
+      '@memozi/shared': resolve(__dirname, '../shared/src/index.ts'),
     },
   },
   resolve: {
     alias: {
-      '@lingo2/shared': resolve(__dirname, '../shared/src/index.ts'),
+      '@memozi/shared': resolve(__dirname, '../shared/src/index.ts'),
     },
   },
 });

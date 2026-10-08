@@ -8,8 +8,8 @@ import { GamificationRepository } from '../../database/prisma/repositories/Gamif
 import { GetDueCards } from '../../../application/review/GetDueCards.js';
 import { SubmitBinaryReview } from '../../../application/review/SubmitBinaryReview.js';
 import { GetReviewStats } from '../../../application/review/GetReviewStats.js';
-import { SupportedLocale } from '@lingo2/shared';
-import type { DueCardDto, SubmitReviewResponse, CardStateDto } from '@lingo2/shared';
+import { SupportedLocale } from '@memozi/shared';
+import type { DueCardDto, SubmitReviewResponse, CardStateDto } from '@memozi/shared';
 import type { Character } from '../../../domain/entities/Character.js';
 import type { Card } from '../../../domain/entities/Card.js';
 import type { Achievement } from '../../../domain/entities/Gamification.js';

@@ -2,7 +2,7 @@ import type { ICardRepository } from '../../domain/ports/outbound/ICardRepositor
 import type { ICharacterRepository } from '../../domain/ports/outbound/ICharacterRepository.js';
 import type { IGamificationRepository } from '../../domain/ports/outbound/IGamificationRepository.js';
 import { getXPRangeForLevel } from '../../domain/entities/Gamification.js';
-import { HSKLevel } from '@lingo2/shared';
+import { HSKLevel } from '@memozi/shared';
 
 export interface HSKProgress {
   learned: number;

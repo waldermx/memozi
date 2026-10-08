@@ -7,7 +7,7 @@
  * The application layer only depends on this interface — never on Prisma directly.
  */
 
-import type { SupportedLocale } from '@lingo2/shared';
+import type { SupportedLocale } from '@memozi/shared';
 import type { Character } from '../../entities/Character.js';
 
 export interface CharacterSearchOptions {

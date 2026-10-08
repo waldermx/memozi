@@ -173,7 +173,7 @@ export const useUserStore = create<UserState & UserActions>()(
       },
     })),
     {
-      name: 'lingo2-user',
+      name: 'memozi-user',
       partialize: (s) => ({
         userId: s.userId,
         displayName: s.displayName,

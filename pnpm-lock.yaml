@@ -62,7 +62,7 @@ importers:
       '@fastify/swagger-ui':
         specifier: ^5.2.6
         version: 5.2.6
-      '@lingo2/shared':
+      '@memozi/shared':
         specifier: workspace:*
         version: link:../shared
       '@prisma/client':
@@ -156,7 +156,7 @@ importers:
       '@ionic/react-router':
         specifier: ^8.5.0
         version: 8.8.5(react-dom@19.0.0(react@19.0.0))(react-router-dom@5.3.4(react@19.0.0))(react-router@5.3.4(react@19.0.0))(react@19.0.0)
-      '@lingo2/shared':
+      '@memozi/shared':
         specifier: workspace:*
         version: link:../shared
       '@tanstack/react-query':

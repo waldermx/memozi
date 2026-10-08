@@ -2,7 +2,7 @@ import type { PrismaClient } from '@prisma/client';
 import { nanoid } from 'nanoid';
 import type { ICardRepository } from '../../../../domain/ports/outbound/ICardRepository.js';
 import { Card } from '../../../../domain/entities/Card.js';
-import { CardState } from '@lingo2/shared';
+import { CardState } from '@memozi/shared';
 
 type CardRow = {
   id: string;

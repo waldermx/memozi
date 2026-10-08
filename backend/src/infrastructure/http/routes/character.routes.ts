@@ -4,8 +4,8 @@ import { CharacterRepository } from '../../database/prisma/repositories/Characte
 import { GetCharacters } from '../../../application/characters/GetCharacters.js';
 import { GetCharacterById } from '../../../application/characters/GetCharacterById.js';
 import { SearchCharacters } from '../../../application/characters/SearchCharacters.js';
-import { SupportedLocale } from '@lingo2/shared';
-import type { CharacterDto } from '@lingo2/shared';
+import { SupportedLocale } from '@memozi/shared';
+import type { CharacterDto } from '@memozi/shared';
 import type { Character } from '../../../domain/entities/Character.js';
 
 const ListQuery = z.object({

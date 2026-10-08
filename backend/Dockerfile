@@ -1,5 +1,5 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# Lingo2 Backend — Production Dockerfile
+# MemoZi Backend — Production Dockerfile
 # Build context: monorepo root  (docker build -f backend/Dockerfile .)
 # Multi-stage build: builder (compile) → runner (minimal Alpine image)
 # ─────────────────────────────────────────────────────────────────────────────
@@ -33,7 +33,7 @@ RUN pnpm build
 # --ignore-scripts skips postinstall in the new dir; we copy the already-
 # generated Prisma binary from the builder's node_modules manually below.
 WORKDIR /app
-RUN pnpm --filter @lingo2/backend deploy --prod --ignore-scripts --legacy /standalone
+RUN pnpm --filter @memozi/backend deploy --prod --ignore-scripts --legacy /standalone
 
 # Copy the Alpine-native Prisma engine generated during `pnpm install` above.
 # In pnpm workspaces, .prisma can live under virtual-store paths, so resolve it dynamically.

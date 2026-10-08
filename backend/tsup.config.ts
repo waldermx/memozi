@@ -6,7 +6,7 @@ export default defineConfig({
   dts: false,
   sourcemap: true,
   outDir: 'dist',
-  // Bundle @lingo2/shared inline so the compiled dist/main.js is fully
+  // Bundle @memozi/shared inline so the compiled dist/main.js is fully
   // self-contained — no runtime dependency on the workspace TypeScript source.
-  noExternal: ['@lingo2/shared'],
+  noExternal: ['@memozi/shared'],
 });

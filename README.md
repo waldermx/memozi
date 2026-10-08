@@ -1,7 +1,8 @@
-# Lingo2
+# MemoZi
 
-Chinese character learning app (HSK) with FSRS spaced repetition, stroke-order practice and
-gamification. Runs on the web and as an Android app from a single React codebase.
+Open-source app for learning to write Chinese characters (HSK 1–3), with FSRS spaced repetition,
+stroke-order practice and gamification. Runs on the web as a PWA and as an Android app (Capacitor)
+from a single React codebase.
 
 ## Stack
 

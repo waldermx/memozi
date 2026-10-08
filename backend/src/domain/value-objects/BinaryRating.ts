@@ -2,7 +2,7 @@
  * @file src/domain/value-objects/BinaryRating.ts
  * @description Immutable value object representing the binary review outcome from HanziWriter.
  *
- * Lingo2 uses a binary correctness model: HanziWriter's quiz mode fires an
+ * MemoZi uses a binary correctness model: HanziWriter's quiz mode fires an
  * `onComplete` callback with `{ totalMistakes: number }`. The domain maps
  * this directly to FSRS ratings without any user intervention:
  *
@@ -13,7 +13,7 @@
  * for the learner during active recall.
  */
 
-import { FSRSRating } from '@lingo2/shared';
+import { FSRSRating } from '@memozi/shared';
 import { type Grade, Rating } from 'ts-fsrs';
 
 // ─── Types ────────────────────────────────────────────────────────────────────

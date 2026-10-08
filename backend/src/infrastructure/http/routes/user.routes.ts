@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { UserRepository } from '../../database/prisma/repositories/UserRepository.js';
 import { GetUserProfile } from '../../../application/users/GetUserProfile.js';
 import { UpdateUserSettings } from '../../../application/users/UpdateUserSettings.js';
-import { SupportedLocale } from '@lingo2/shared';
+import { SupportedLocale } from '@memozi/shared';
 
 const SettingsBody = z.object({
   preferredLocale: z.nativeEnum(SupportedLocale).optional(),

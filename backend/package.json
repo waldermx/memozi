@@ -1,5 +1,5 @@
 {
-  "name": "@lingo2/backend",
+  "name": "@memozi/backend",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -31,7 +31,7 @@
     "@fastify/sensible": "^6.0.4",
     "@fastify/swagger": "^9.7.0",
     "@fastify/swagger-ui": "^5.2.6",
-    "@lingo2/shared": "workspace:*",
+    "@memozi/shared": "workspace:*",
     "@prisma/client": "^6.0.0",
     "bcryptjs": "^2.4.3",
     "fastify": "^5.8.5",

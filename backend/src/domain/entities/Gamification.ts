@@ -2,7 +2,7 @@
  * @file src/domain/entities/Gamification.ts
  * @description Gamification state entities: UserGamification and Achievement.
  *
- * Lingo2 gamification is opinionated and purposefully constrained:
+ * MemoZi gamification is opinionated and purposefully constrained:
  *   - XP is the only currency (no coins, diamonds, etc.)
  *   - Levels are fixed (not user-configurable)
  *   - Streak resets at midnight in the user's timezone
@@ -12,7 +12,7 @@
  * curve a business/design decision, not a database concern.
  */
 
-import { AchievementType } from '@lingo2/shared';
+import { AchievementType } from '@memozi/shared';
 
 // ─── XP Level Table ───────────────────────────────────────────────────────────
 

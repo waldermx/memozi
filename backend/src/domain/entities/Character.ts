@@ -10,7 +10,7 @@
  * always carries the resolved locale data for the requesting user.
  */
 
-import type { HSKLevel, SupportedLocale } from '@lingo2/shared';
+import type { HSKLevel, SupportedLocale } from '@memozi/shared';
 
 // ─── Sub-types ─────────────────────────────────────────────────────────────────
 

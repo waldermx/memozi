@@ -1,6 +1,6 @@
 import type { IGamificationRepository } from '../../domain/ports/outbound/IGamificationRepository.js';
 import { ACHIEVEMENT_CATALOGUE } from '../../domain/entities/Gamification.js';
-import type { AchievementDto } from '@lingo2/shared';
+import type { AchievementDto } from '@memozi/shared';
 
 export class GetAchievements {
   constructor(private readonly gamificationRepo: IGamificationRepository) {}

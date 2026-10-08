@@ -25,7 +25,7 @@ import {
 import type { BinaryRating } from '../value-objects/BinaryRating.js';
 import type { FSRSParameters } from '../value-objects/FSRSParameters.js';
 import { Card } from '../entities/Card.js';
-import { CardState } from '@lingo2/shared';
+import { CardState } from '@memozi/shared';
 import { nanoid } from 'nanoid';
 
 /** Result returned after scheduling a binary review. */

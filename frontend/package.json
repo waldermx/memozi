@@ -1,5 +1,5 @@
 {
-  "name": "@lingo2/frontend",
+  "name": "@memozi/frontend",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -20,7 +20,7 @@
     "@capacitor/status-bar": "8.0.0",
     "@ionic/react": "^8.5.0",
     "@ionic/react-router": "^8.5.0",
-    "@lingo2/shared": "workspace:*",
+    "@memozi/shared": "workspace:*",
     "@tanstack/react-query": "^5.100.6",
     "@types/react-router": "^5.1.20",
     "@types/react-router-dom": "^5.3.3",

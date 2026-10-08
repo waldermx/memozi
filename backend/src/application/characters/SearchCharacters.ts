@@ -1,6 +1,6 @@
 import type { ICharacterRepository } from '../../domain/ports/outbound/ICharacterRepository.js';
 import type { Character } from '../../domain/entities/Character.js';
-import type { SupportedLocale } from '@lingo2/shared';
+import type { SupportedLocale } from '@memozi/shared';
 
 export class SearchCharacters {
   constructor(private readonly characterRepo: ICharacterRepository) {}

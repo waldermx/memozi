@@ -14,7 +14,7 @@
  * @see https://github.com/open-spaced-repetition/ts-fsrs for algorithm details
  */
 
-import { CardState } from '@lingo2/shared';
+import { CardState } from '@memozi/shared';
 
 /**
  * Mutable FSRS state for a user's study card.

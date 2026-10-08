@@ -4,7 +4,7 @@ import type {
   ReviewActivityDay,
 } from '../../../../domain/ports/outbound/IReviewLogRepository.js';
 import { ReviewLog } from '../../../../domain/entities/ReviewLog.js';
-import { type CardState, FSRSRating } from '@lingo2/shared';
+import { type CardState, FSRSRating } from '@memozi/shared';
 
 export class ReviewLogRepository implements IReviewLogRepository {
   constructor(private readonly prisma: PrismaClient) {}
