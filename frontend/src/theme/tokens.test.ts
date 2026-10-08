@@ -1,5 +1,6 @@
 import tokensCss from './tokens.css?raw';
 import themeCss from './variables.css?raw';
+import legacyCss from '../styles/variables.css?raw';
 import { contrastRatio, parseHex } from './contrast';
 
 type TokenMap = Record<string, string>;
@@ -40,9 +41,7 @@ function darkTokens(css: string): TokenMap {
   return declarations(blockBody(inner, inner.indexOf(':root')));
 }
 
-// Color tokens from "Guía de estilo MemoZi" v0, plus --mz-on-action
-// (text/icon color on top of --mz-action, needed because white on the
-// dark-mode action color only reaches ~2.6:1).
+// Color tokens from "Guía de estilo MemoZi" v0.
 const GUIDE_COLORS: Record<string, { light: string; dark: string }> = {
   '--mz-bg': { light: '#f4f6fa', dark: '#121417' },
   '--mz-surface': { light: '#ffffff', dark: '#1b1e22' },
@@ -54,6 +53,8 @@ const GUIDE_COLORS: Record<string, { light: string; dark: string }> = {
   '--mz-success': { light: '#2f7d5b', dark: '#4fa37f' },
   '--mz-error': { light: '#b4483c', dark: '#e07a6e' },
   '--mz-line': { light: '#dde1e8', dark: '#2a2e34' },
+  '--mz-warning': { light: '#8a5a00', dark: '#d9a441' },
+  '--mz-on-action': { light: '#ffffff', dark: '#121417' },
 };
 
 const light = lightTokens(tokensCss);
@@ -68,9 +69,9 @@ describe('design tokens: colors', () => {
     },
   );
 
-  it('defines --mz-on-action in both schemes', () => {
-    expect(() => parseHex(light['--mz-on-action'])).not.toThrow();
-    expect(() => parseHex(dark['--mz-on-action'])).not.toThrow();
+  it('defines --mz-on-warning in both schemes', () => {
+    expect(() => parseHex(light['--mz-on-warning'])).not.toThrow();
+    expect(() => parseHex(dark['--mz-on-warning'])).not.toThrow();
   });
 
   it('every --mz color defined in light is overridden in dark', () => {
@@ -93,6 +94,9 @@ describe('design tokens: WCAG contrast', () => {
     ['--mz-action', '--mz-bg'],
     ['--mz-success', '--mz-surface'],
     ['--mz-error', '--mz-surface'],
+    ['--mz-warning', '--mz-bg'],
+    ['--mz-warning', '--mz-surface'],
+    ['--mz-on-warning', '--mz-warning'],
   ];
 
   it.each(pairs)('light: %s on %s is at least 4.5:1', (fg, bg) => {
@@ -145,6 +149,64 @@ describe('design tokens: scales', () => {
 
 describe('Ionic theme mapping', () => {
   const ionLight = lightTokens(themeCss);
+  const ionDark = darkTokens(themeCss);
+  const schemes = [
+    ['light', ionLight, light],
+    ['dark', ionDark, dark],
+  ] as const;
+
+  /** Resolves a value that is either a hex literal or var(--mz-*) for a scheme. */
+  const resolve = (value: string | undefined, tokens: TokenMap): string => {
+    if (!value) throw new Error('missing value');
+    const ref = value.match(/^var\((--mz-[\w-]+)\)$/);
+    return ref ? tokens[ref[1]] : value;
+  };
+
+  const IONIC_COLORS = ['primary', 'secondary', 'success', 'warning', 'danger', 'medium', 'light'];
+
+  it.each(schemes)(
+    '%s: every Ionic color has an -rgb literal matching its base',
+    (_, ion, tokens) => {
+      for (const name of IONIC_COLORS) {
+        const base = resolve(ion[`--ion-color-${name}`], tokens);
+        const rgb = ion[`--ion-color-${name}-rgb`]?.replace(/\s/g, '');
+        expect(rgb, name).toBe(parseHex(base).join(','));
+      }
+    },
+  );
+
+  it.each(schemes)(
+    '%s: every Ionic color has a contrast color of at least 4.5:1',
+    (_, ion, tokens) => {
+      for (const name of IONIC_COLORS) {
+        const base = resolve(ion[`--ion-color-${name}`], tokens);
+        const fg = resolve(ion[`--ion-color-${name}-contrast`], tokens);
+        expect(contrastRatio(fg, base), name).toBeGreaterThanOrEqual(4.5);
+      }
+    },
+  );
+
+  it.each(schemes)(
+    '%s: warning maps to --mz-warning and its contrast to --mz-on-warning',
+    (_, ion) => {
+      expect(ion['--ion-color-warning']).toBe('var(--mz-warning)');
+      expect(ion['--ion-color-warning-contrast']).toBe('var(--mz-on-warning)');
+    },
+  );
+
+  it('dark: no white text on warning', () => {
+    expect(resolve(ionDark['--ion-color-warning-contrast'], dark).toLowerCase()).not.toMatch(
+      /^#(fff|ffffff)$/,
+    );
+  });
+
+  it('step colors are derived from the tokens', () => {
+    const all = declarations(themeCss);
+    for (let n = 50; n <= 950; n += 50) {
+      expect(all[`--ion-background-color-step-${n}`], `bg step ${n}`).toMatch(/var\(--mz-/);
+      expect(all[`--ion-text-color-step-${n}`], `text step ${n}`).toMatch(/var\(--mz-/);
+    }
+  });
 
   it('primary points at --mz-action', () => {
     expect(ionLight['--ion-color-primary']).toBe('var(--mz-action)');
@@ -158,5 +220,25 @@ describe('Ionic theme mapping', () => {
   it('background and text come from the tokens', () => {
     expect(ionLight['--ion-background-color']).toBe('var(--mz-bg)');
     expect(ionLight['--ion-text-color']).toBe('var(--mz-text)');
+  });
+});
+
+describe('legacy aliases', () => {
+  const legacy = lightTokens(legacyCss);
+
+  it('card states follow the style guide', () => {
+    expect(legacy['--card-new']).toBe('var(--mz-text-muted)');
+    expect(legacy['--card-learning']).toBe('var(--mz-brand)');
+    expect(legacy['--card-due']).toBe('var(--mz-warning)');
+    expect(legacy['--card-mastered']).toBe('var(--mz-success)');
+  });
+
+  it('new / learning / due / mastered resolve to four distinct tokens', () => {
+    const states = ['new', 'learning', 'due', 'mastered'].map((s) => legacy[`--card-${s}`]);
+    expect(new Set(states).size).toBe(4);
+  });
+
+  it('amber is an alias of --mz-warning', () => {
+    expect(legacy['--c-amber']).toBe('var(--mz-warning)');
   });
 });
