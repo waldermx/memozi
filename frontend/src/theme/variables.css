@@ -86,6 +86,52 @@
   --ion-font-family: var(--mz-font-ui);
 }
 
+/* Step colors (borders, pressed states, iOS modal layers) mixed from the
+   tokens, so they follow light/dark without per-scheme literals.
+   :root.ios/:root.md beat the values in dark.system.css. */
+:root,
+:root.ios,
+:root.md {
+  --ion-background-color-step-50: color-mix(in srgb, var(--mz-text) 5%, var(--mz-bg));
+  --ion-background-color-step-100: color-mix(in srgb, var(--mz-text) 10%, var(--mz-bg));
+  --ion-background-color-step-150: color-mix(in srgb, var(--mz-text) 15%, var(--mz-bg));
+  --ion-background-color-step-200: color-mix(in srgb, var(--mz-text) 20%, var(--mz-bg));
+  --ion-background-color-step-250: color-mix(in srgb, var(--mz-text) 25%, var(--mz-bg));
+  --ion-background-color-step-300: color-mix(in srgb, var(--mz-text) 30%, var(--mz-bg));
+  --ion-background-color-step-350: color-mix(in srgb, var(--mz-text) 35%, var(--mz-bg));
+  --ion-background-color-step-400: color-mix(in srgb, var(--mz-text) 40%, var(--mz-bg));
+  --ion-background-color-step-450: color-mix(in srgb, var(--mz-text) 45%, var(--mz-bg));
+  --ion-background-color-step-500: color-mix(in srgb, var(--mz-text) 50%, var(--mz-bg));
+  --ion-background-color-step-550: color-mix(in srgb, var(--mz-text) 55%, var(--mz-bg));
+  --ion-background-color-step-600: color-mix(in srgb, var(--mz-text) 60%, var(--mz-bg));
+  --ion-background-color-step-650: color-mix(in srgb, var(--mz-text) 65%, var(--mz-bg));
+  --ion-background-color-step-700: color-mix(in srgb, var(--mz-text) 70%, var(--mz-bg));
+  --ion-background-color-step-750: color-mix(in srgb, var(--mz-text) 75%, var(--mz-bg));
+  --ion-background-color-step-800: color-mix(in srgb, var(--mz-text) 80%, var(--mz-bg));
+  --ion-background-color-step-850: color-mix(in srgb, var(--mz-text) 85%, var(--mz-bg));
+  --ion-background-color-step-900: color-mix(in srgb, var(--mz-text) 90%, var(--mz-bg));
+  --ion-background-color-step-950: color-mix(in srgb, var(--mz-text) 95%, var(--mz-bg));
+  --ion-text-color-step-50: color-mix(in srgb, var(--mz-bg) 5%, var(--mz-text));
+  --ion-text-color-step-100: color-mix(in srgb, var(--mz-bg) 10%, var(--mz-text));
+  --ion-text-color-step-150: color-mix(in srgb, var(--mz-bg) 15%, var(--mz-text));
+  --ion-text-color-step-200: color-mix(in srgb, var(--mz-bg) 20%, var(--mz-text));
+  --ion-text-color-step-250: color-mix(in srgb, var(--mz-bg) 25%, var(--mz-text));
+  --ion-text-color-step-300: color-mix(in srgb, var(--mz-bg) 30%, var(--mz-text));
+  --ion-text-color-step-350: color-mix(in srgb, var(--mz-bg) 35%, var(--mz-text));
+  --ion-text-color-step-400: color-mix(in srgb, var(--mz-bg) 40%, var(--mz-text));
+  --ion-text-color-step-450: color-mix(in srgb, var(--mz-bg) 45%, var(--mz-text));
+  --ion-text-color-step-500: color-mix(in srgb, var(--mz-bg) 50%, var(--mz-text));
+  --ion-text-color-step-550: color-mix(in srgb, var(--mz-bg) 55%, var(--mz-text));
+  --ion-text-color-step-600: color-mix(in srgb, var(--mz-bg) 60%, var(--mz-text));
+  --ion-text-color-step-650: color-mix(in srgb, var(--mz-bg) 65%, var(--mz-text));
+  --ion-text-color-step-700: color-mix(in srgb, var(--mz-bg) 70%, var(--mz-text));
+  --ion-text-color-step-750: color-mix(in srgb, var(--mz-bg) 75%, var(--mz-text));
+  --ion-text-color-step-800: color-mix(in srgb, var(--mz-bg) 80%, var(--mz-text));
+  --ion-text-color-step-850: color-mix(in srgb, var(--mz-bg) 85%, var(--mz-text));
+  --ion-text-color-step-900: color-mix(in srgb, var(--mz-bg) 90%, var(--mz-text));
+  --ion-text-color-step-950: color-mix(in srgb, var(--mz-bg) 95%, var(--mz-text));
+}
+
 /* Ionic's dark.system.css sets background/text/item/card/toolbar on
    :root.ios and :root.md, so those selectors are needed to win. */
 @media (prefers-color-scheme: dark) {
@@ -150,5 +196,15 @@
     --ion-tab-bar-background: var(--mz-bg);
     --ion-card-background: var(--mz-surface);
     --ion-item-background: var(--mz-surface);
+  }
+}
+
+/* iOS modals: dark.system.css layers them with step colors; sheets use
+   the surface token instead. */
+@media (prefers-color-scheme: dark) {
+  :root.ios ion-modal {
+    --ion-background-color: var(--mz-surface);
+    --ion-toolbar-background: var(--mz-surface);
+    --ion-toolbar-border-color: var(--mz-line);
   }
 }
