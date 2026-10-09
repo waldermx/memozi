@@ -1,70 +1,57 @@
 /**
  * @file shared/src/srs/FSRSParameters.ts
- * @description Immutable value object encapsulating the 17 FSRS-5 parameters (w[0..16]).
+ * @description Immutable value object holding the FSRS model weights.
  *
- * The FSRS-5 algorithm uses 17 trainable parameters to calculate memory stability
- * and retrievability. The default values provided here were determined by training
- * on 20+ million Anki reviews by the FSRS research team.
+ * ts-fsrs 5 implements FSRS-6, which uses 21 weights (w[0..20]). Older weight
+ * sets are still accepted and migrated with ts-fsrs `migrateParameters`:
+ *   - 17 weights: FSRS-4.5 (what the backend stored in users.fsrs_parameters
+ *     before the upgrade)
+ *   - 19 weights: FSRS-5
  *
- * Users can eventually have personalized parameters (stored in users.fsrs_parameters)
- * but this requires collecting enough review data for optimization. For the MVP,
- * all users start with the default parameters.
+ * Every user starts with the library defaults. Personalised weights need enough
+ * review history for the optimizer, which is out of scope for now.
  *
- * @see https://github.com/open-spaced-repetition/fsrs5-paper for the research paper.
+ * @see https://github.com/open-spaced-repetition/ts-fsrs
  */
 
-/** The default FSRS-5 parameters trained on 20M+ reviews. */
-const DEFAULT_PARAMS: readonly number[] = [
-  0.40255, 1.18385, 3.1262, 15.4722,  // w[0..3]: initial stability for ratings 1-4
-  7.2102, 0.5316, 1.0651, 0.06046,    // w[4..7]: difficulty/stability modifiers
-  1.616, 0.1544, 1.0071,              // w[8..10]: forgetting curve shapers
-  1.9395, 0.11, 0.29605, 2.2698,      // w[11..14]: learning state modifiers
-  0.2994, 2.9898,                     // w[15..16]: relearning modifiers
-] as const;
+import { generatorParameters, migrateParameters } from 'ts-fsrs';
+
+const SUPPORTED_LENGTHS: readonly number[] = [17, 19, 21];
 
 /**
- * Immutable value object holding FSRS-5 algorithm parameters.
- *
- * @invariant Always has exactly 17 parameters. No parameter is NaN.
+ * @invariant Always holds 21 finite weights.
  */
 export class FSRSParameters {
   private constructor(public readonly weights: readonly number[]) {}
 
-  /**
-   * Create the default FSRS-5 parameters.
-   * Use this for all new users and as the fallback when custom params are invalid.
-   */
+  /** The current ts-fsrs default weights (FSRS-6). */
   static default(): FSRSParameters {
-    return new FSRSParameters([...DEFAULT_PARAMS]);
+    return new FSRSParameters([...generatorParameters().w]);
   }
 
   /**
-   * Create from a custom weights array (e.g., loaded from user's DB record).
+   * Create from a weights array (e.g. loaded from storage). 17- and 19-weight
+   * arrays are migrated to 21 weights; 21-weight arrays are kept as given.
    *
-   * @param weights - Array of exactly 17 numbers.
-   * @throws {Error} If the array length is not 17 or contains NaN values.
-   *
-   * @example
-   * ```ts
-   * const params = FSRSParameters.fromArray(user.fsrsParameters as number[]);
-   * ```
+   * @throws {Error} If the length is not 17, 19 or 21, or a value is not finite.
    */
-  static fromArray(weights: number[]): FSRSParameters {
-    if (weights.length !== 17) {
+  static fromArray(weights: readonly number[]): FSRSParameters {
+    if (!SUPPORTED_LENGTHS.includes(weights.length)) {
       throw new Error(
-        `FSRSParameters must have exactly 17 weights, received ${weights.length}. ` +
-        'Falling back to defaults is recommended.',
+        `FSRSParameters must have 17, 19 or 21 weights, received ${weights.length}.`,
       );
     }
-    if (weights.some((w) => isNaN(w))) {
-      throw new Error('FSRSParameters contains NaN values. Check the source data.');
+    if (weights.some((w) => typeof w !== 'number' || !Number.isFinite(w))) {
+      throw new Error('FSRSParameters must only contain finite numbers.');
     }
-    return new FSRSParameters([...weights]);
+    // 21 weights are already current; migrating them again would re-clip and break
+    // the toArray()/fromArray() round trip.
+    return new FSRSParameters(weights.length === 21 ? [...weights] : migrateParameters(weights));
   }
 
   /**
-   * Attempt to parse from an unknown value (e.g., Prisma JSON field).
-   * Returns default parameters on any error.
+   * Parse an unknown value (e.g. a JSON column). Falls back to the defaults
+   * when the value is not a valid weights array.
    */
   static fromJsonOrDefault(json: unknown): FSRSParameters {
     if (!Array.isArray(json)) return FSRSParameters.default();
@@ -75,13 +62,13 @@ export class FSRSParameters {
     }
   }
 
-  /** Serialize to a plain array for storage in Prisma JSON columns. */
+  /** Serialize to a plain array for storage. Always 21 weights. */
   toArray(): number[] {
     return [...this.weights];
   }
 
-  /** Return a new instance with modified weights (for future FSRS optimizer). */
-  withWeights(weights: number[]): FSRSParameters {
+  /** Return a new instance with other weights (for a future optimizer). */
+  withWeights(weights: readonly number[]): FSRSParameters {
     return FSRSParameters.fromArray(weights);
   }
 }

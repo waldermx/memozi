@@ -28,4 +28,6 @@ export interface SrsCard {
   elapsedDays: number;
   /** Interval in days chosen at the last review */
   scheduledDays: number;
+  /** Index of the current (re)learning step; 0 outside of learning */
+  learningSteps: number;
 }
