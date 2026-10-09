@@ -4,8 +4,8 @@ import { FSRSParameters } from './FSRSParameters.js';
 
 /** FSRS-4.5 defaults that were stored for every user before the ts-fsrs 5 upgrade. */
 const LEGACY_17 = [
-  0.40255, 1.18385, 3.1262, 15.4722, 7.2102, 0.5316, 1.0651, 0.06046, 1.616, 0.1544, 1.0071,
-  1.9395, 0.11, 0.29605, 2.2698, 0.2994, 2.9898,
+  0.40255, 1.18385, 3.1262, 15.4722, 7.2102, 0.5316, 1.0651, 0.06046, 1.616, 0.1544, 1.0071, 1.9395,
+  0.11, 0.29605, 2.2698, 0.2994, 2.9898,
 ];
 
 describe('FSRSParameters', () => {

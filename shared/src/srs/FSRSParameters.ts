@@ -37,9 +37,7 @@ export class FSRSParameters {
    */
   static fromArray(weights: readonly number[]): FSRSParameters {
     if (!SUPPORTED_LENGTHS.includes(weights.length)) {
-      throw new Error(
-        `FSRSParameters must have 17, 19 or 21 weights, received ${weights.length}.`,
-      );
+      throw new Error(`FSRSParameters must have 17, 19 or 21 weights, received ${weights.length}.`);
     }
     if (weights.some((w) => typeof w !== 'number' || !Number.isFinite(w))) {
       throw new Error('FSRSParameters must only contain finite numbers.');

@@ -33,7 +33,11 @@ describe('buildDailyQueue', () => {
   });
 
   it('leaves out cards that are not due yet', () => {
-    const cards = [review('later', daysFromNow(1)), review('now', NOW), review('past', daysFromNow(-1))];
+    const cards = [
+      review('later', daysFromNow(1)),
+      review('now', NOW),
+      review('past', daysFromNow(-1)),
+    ];
 
     expect(ids(buildDailyQueue(cards, NOW, LIMITS))).toEqual(['past', 'now']);
   });
@@ -64,7 +68,11 @@ describe('buildDailyQueue', () => {
   it('subtracts the new cards already introduced today from the daily limit', () => {
     const cards = [fresh('n1'), fresh('n2'), fresh('n3')];
 
-    const queue = buildDailyQueue(cards, NOW, { newPerDay: 3, maxReviews: 50, newIntroducedToday: 2 });
+    const queue = buildDailyQueue(cards, NOW, {
+      newPerDay: 3,
+      maxReviews: 50,
+      newIntroducedToday: 2,
+    });
 
     expect(ids(queue)).toEqual(['n1']);
   });
@@ -72,7 +80,11 @@ describe('buildDailyQueue', () => {
   it('adds no new cards once the daily limit is used up', () => {
     const cards = [fresh('n1'), review('r1', daysFromNow(-1))];
 
-    const queue = buildDailyQueue(cards, NOW, { newPerDay: 2, maxReviews: 50, newIntroducedToday: 5 });
+    const queue = buildDailyQueue(cards, NOW, {
+      newPerDay: 2,
+      maxReviews: 50,
+      newIntroducedToday: 5,
+    });
 
     expect(ids(queue)).toEqual(['r1']);
   });

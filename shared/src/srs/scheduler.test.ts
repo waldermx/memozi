@@ -82,7 +82,11 @@ describe('scheduleBinary — incorrect answer (>0 mistakes)', () => {
   const reviewCard = { state: CardState.Review, reps: 5, stability: 10, difficulty: 5 };
 
   it('increments lapses after incorrect answer on Review card', () => {
-    const card = makeCard({ ...reviewCard, lapses: 0, lastReview: new Date('2025-12-20T10:00:00Z') });
+    const card = makeCard({
+      ...reviewCard,
+      lapses: 0,
+      lastReview: new Date('2025-12-20T10:00:00Z'),
+    });
     const result = scheduleBinary(card, BinaryRating.incorrect(2), params, REVIEW_AT);
     expect(result.card.lapses).toBe(1);
   });
