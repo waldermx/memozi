@@ -89,9 +89,6 @@ importers:
       pino-pretty:
         specifier: ^13.0.0
         version: 13.1.3
-      ts-fsrs:
-        specifier: ^4.3.2
-        version: 4.7.1
       zod:
         specifier: ^3.24.4
         version: 3.25.76
@@ -264,16 +261,29 @@ importers:
         version: 4.1.5(@types/node@20.19.39)(@vitest/coverage-v8@4.1.5)(jsdom@22.1.0)(vite@7.3.2(@types/node@20.19.39)(jiti@2.6.1)(lightningcss@1.32.0)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.3))
 
   shared:
+    dependencies:
+      ts-fsrs:
+        specifier: ^5.4.2
+        version: 5.4.2
     devDependencies:
+      '@eslint/js':
+        specifier: ^9.0.0
+        version: 9.39.4
       '@types/node':
         specifier: ^20.0.0
         version: 20.19.39
       '@vitest/coverage-v8':
         specifier: ^4.1.5
         version: 4.1.5(vitest@4.1.5)
+      eslint:
+        specifier: ^9.0.0
+        version: 9.39.4(jiti@2.6.1)
       typescript:
         specifier: ~5.6.0
         version: 5.6.3
+      typescript-eslint:
+        specifier: ^8.0.0
+        version: 8.59.1(eslint@9.39.4(jiti@2.6.1))(typescript@5.6.3)
       vitest:
         specifier: ^4.1.5
         version: 4.1.5(@types/node@20.19.39)(@vitest/coverage-v8@4.1.5)(jsdom@22.1.0)(vite@8.0.10(@types/node@20.19.39)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.2)(tsx@4.21.0)(yaml@2.8.3))
@@ -1921,6 +1931,7 @@ packages:
   '@xmldom/xmldom@0.9.10':
     resolution: {integrity: sha512-A9gOqLdi6cV4ibazAjcQufGj0B1y/vDqYrcuP6d/6x8P27gRS8643Dj9o1dEKtB6O7fwxb2FgBmJS2mX7gpvdw==}
     engines: {node: '>=14.6'}
+    deprecated: this version has critical issues, please update to the latest version
 
   JSONStream@1.3.5:
     resolution: {integrity: sha512-E+iruNOY8VV9s4JEbe1aNEm6MiszPRr/UfcHMz0TQh1BXSxHK+ASV1R6W4HpjBhSeS+54PIsAMCBmwD06LLsqQ==}
@@ -2699,6 +2710,7 @@ packages:
   eslint@9.39.4:
     resolution: {integrity: sha512-XoMjdBOwe/esVgEvLmNsD3IRHkm7fbKIUGvrleloJXUZgDHig2IPWNniv+GwjyJXzuNqVjlr5+4yVUZjycJwfQ==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    deprecated: This version is no longer supported. Please see https://eslint.org/version-support for other options.
     hasBin: true
     peerDependencies:
       jiti: '*'
@@ -2986,7 +2998,7 @@ packages:
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
     engines: {node: '>=16'}
-    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   glob-parent@6.0.2:
@@ -4673,9 +4685,9 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
-  ts-fsrs@4.7.1:
-    resolution: {integrity: sha512-uYqKbSCNWLRPT0PfqFFy2rn0YuYz2fKmtgpgHOBd5/DP14oj6diG7P271AwJ8iGrKnmIspzXCF+nTKxict+Lcg==}
-    engines: {node: '>=18.0.0'}
+  ts-fsrs@5.4.2:
+    resolution: {integrity: sha512-z4qop4pzTcyTzuJ566d9EaX/4bZZzhYfeaPImfVr+xcYT65c5oBgFDijUhCE/D+C78eaolHIhKRZ04/RwF+v2g==}
+    engines: {node: '>=20.0.0'}
 
   ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
@@ -10053,7 +10065,7 @@ snapshots:
     dependencies:
       typescript: 5.6.3
 
-  ts-fsrs@4.7.1: {}
+  ts-fsrs@5.4.2: {}
 
   ts-interface-checker@0.1.13: {}
 

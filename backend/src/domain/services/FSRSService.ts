@@ -1,65 +1,45 @@
 /**
  * @file src/domain/services/FSRSService.ts
- * @description Domain service that wraps ts-fsrs to schedule card reviews.
+ * @description Adapter between the backend `Card` entity and the shared SRS core.
  *
- * This service is stateless and contains no I/O — it is a pure function on
- * domain objects. Tests can call it directly without any mocks.
+ * The scheduling logic itself lives in `@memozi/shared` (srs/scheduler.ts) so the
+ * app can schedule cards offline. This service only maps the persisted entity
+ * to the framework-free `SrsCard` and back, and assigns ids to new cards.
  *
- * FSRS-5 key concepts:
- *   - Stability (S): how many days until retrievability drops to 90%
- *   - Difficulty (D): intrinsic hardness of the card, range [1, 10]
- *   - Retrievability (R): probability of recall at review time
- *   - Rating: the quality of the response (1=Again, 3=Good in our binary model)
- *
- * @see https://github.com/open-spaced-repetition/ts-fsrs
+ * The cards table has no column for the (re)learning step position that
+ * ts-fsrs 5 tracks, so the backend schedules without short-term steps and lets
+ * FSRS choose the interval directly (same behaviour as ts-fsrs 4 with
+ * enable_short_term). Otherwise a Learning card would restart at step 0 on
+ * every request and never graduate.
  */
 
 import {
-  createEmptyCard,
-  fsrs,
-  generatorParameters,
-  State,
-  type Card as FSRSCard,
+  createNewSrsCard,
+  scheduleBinary,
+  type BinaryRating,
+  type FSRSParameters,
   type Grade,
-} from 'ts-fsrs';
-import type { BinaryRating } from '../value-objects/BinaryRating.js';
-import type { FSRSParameters } from '../value-objects/FSRSParameters.js';
-import { Card } from '../entities/Card.js';
-import { CardState } from '@memozi/shared';
+  type SchedulerOptions,
+  type SrsCard,
+} from '@memozi/shared';
 import { nanoid } from 'nanoid';
+import { Card } from '../entities/Card.js';
 
 /** Result returned after scheduling a binary review. */
+const NO_STEPS: SchedulerOptions = { learningSteps: [], relearningSteps: [] };
+
 export interface ScheduleResult {
-  /** The card with updated FSRS state (mutated copy — original is unchanged) */
+  /** The card with updated FSRS state (new instance, the original is unchanged) */
   updatedCard: Card;
   /** The FSRS Grade applied (Again=1 or Good=3) */
   rating: Grade;
 }
 
-/**
- * Pure domain service for FSRS-5 card scheduling.
- *
- * Usage in application layer:
- * ```ts
- * const fsrsService = new FSRSService();
- * const result = fsrsService.scheduleBinary(card, binaryRating, user.fsrsParameters);
- * await cardRepo.update(result.updatedCard);
- * ```
- */
 export class FSRSService {
   /**
-   * Schedule a card using the binary review outcome from HanziWriter.
+   * Schedule a card using the binary review outcome.
    *
-   * Maps BinaryRating to FSRS:
-   *   - correct (0 mistakes) → Rating.Good (3) → normal interval progression
-   *   - incorrect (>0 mistakes) → Rating.Again (1) → card returns to learning queue
-   *
-   * @param card - The current card state before this review.
-   * @param binaryRating - The outcome determined by HanziWriter quiz completion.
-   * @param params - FSRS parameters for this user. Defaults to global defaults if omitted.
    * @param reviewedAt - The review timestamp. Defaults to now. Pass explicitly in tests.
-   *
-   * @returns A new Card instance with updated FSRS state. The original `card` is not mutated.
    */
   scheduleBinary(
     card: Card,
@@ -67,80 +47,41 @@ export class FSRSService {
     params: FSRSParameters,
     reviewedAt: Date = new Date(),
   ): ScheduleResult {
-    const algo = fsrs(
-      generatorParameters({ w: params.toArray() }),
-    );
-
-    const fsrsCard = this.toFSRSCard(card);
-    const rating = binaryRating.toFSRSRating();
-
-    // ts-fsrs returns a record of all possible next states keyed by Rating
-    const result = algo.next(fsrsCard, reviewedAt, rating);
-    const scheduled = result.card;
-
-    const updatedCard = new Card({
-      ...card,
-      state: scheduled.state as unknown as CardState,
-      stability: scheduled.stability,
-      difficulty: scheduled.difficulty,
-      due: scheduled.due,
-      reps: scheduled.reps,
-      lapses: scheduled.lapses,
-      lastReview: reviewedAt,
-      elapsedDays: scheduled.elapsed_days,
-      scheduledDays: scheduled.scheduled_days,
-    });
-
-    return { updatedCard, rating };
-  }
-
-  /**
-   * Create a brand-new FSRS card for a user × character pair.
-   * The card starts in state=New with default FSRS values and is due immediately.
-   *
-   * @param userId - The owning user's ID.
-   * @param characterId - The character to create the card for.
-   *
-   * @example
-   * ```ts
-   * const newCard = fsrsService.createNewCard(userId, characterId);
-   * await cardRepo.create(newCard);
-   * ```
-   */
-  createNewCard(userId: string, characterId: string): Card {
-    const fsrsCard = createEmptyCard();
-    return new Card({
-      id: nanoid(),
-      userId,
-      characterId,
-      state: CardState.New,
-      stability: fsrsCard.stability,
-      difficulty: fsrsCard.difficulty,
-      due: fsrsCard.due,
-      reps: fsrsCard.reps,
-      lapses: fsrsCard.lapses,
-      lastReview: null,
-      elapsedDays: 0,
-      scheduledDays: 0,
-    });
-  }
-
-  /** Convert our domain Card to the ts-fsrs Card format. */
-  private toFSRSCard(card: Card): FSRSCard {
-    const base = {
-      due: card.due,
-      stability: card.stability,
-      difficulty: card.difficulty,
-      elapsed_days: card.elapsedDays,
-      scheduled_days: card.scheduledDays,
-      reps: card.reps,
-      lapses: card.lapses,
-      // CardState enum values are 0-3, matching ts-fsrs State enum values 0-3
-      state: card.state as unknown as State,
+    const result = scheduleBinary(toSrsCard(card), binaryRating, params, reviewedAt, NO_STEPS);
+    return {
+      updatedCard: toEntity(card, result.card),
+      rating: result.rating,
     };
-    if (card.lastReview !== null) {
-      return { ...base, last_review: card.lastReview };
-    }
-    return base;
   }
+
+  /** Create a brand-new card for a user × character pair, due immediately. */
+  createNewCard(userId: string, characterId: string, now: Date = new Date()): Card {
+    const { learningSteps: _steps, ...state } = createNewSrsCard(now);
+    return new Card({ id: nanoid(), userId, characterId, ...state });
+  }
+}
+
+function toEntity(identity: Card, srs: SrsCard): Card {
+  const { learningSteps: _steps, ...state } = srs;
+  return new Card({
+    id: identity.id,
+    userId: identity.userId,
+    characterId: identity.characterId,
+    ...state,
+  });
+}
+
+function toSrsCard(card: Card): SrsCard {
+  return {
+    state: card.state,
+    due: card.due,
+    stability: card.stability,
+    difficulty: card.difficulty,
+    reps: card.reps,
+    lapses: card.lapses,
+    lastReview: card.lastReview,
+    elapsedDays: card.elapsedDays,
+    scheduledDays: card.scheduledDays,
+    learningSteps: 0,
+  };
 }

@@ -1,8 +1,7 @@
 import type { PrismaClient } from '@prisma/client';
 import type { IUserRepository } from '../../../../domain/ports/outbound/IUserRepository.js';
 import { User } from '../../../../domain/entities/User.js';
-import { SupportedLocale } from '@memozi/shared';
-import { FSRSParameters } from '../../../../domain/value-objects/FSRSParameters.js';
+import { FSRSParameters, SupportedLocale } from '@memozi/shared';
 
 export class UserRepository implements IUserRepository {
   constructor(private readonly prisma: PrismaClient) {}

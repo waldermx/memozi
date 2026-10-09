@@ -12,7 +12,7 @@
  *   - `*Dto`       → internal data transfer object (used in both directions)
  */
 
-import type { AchievementType, CardState, FSRSRating, HSKLevel, SupportedLocale } from './enums.js';
+import type { AchievementType, CardState, HSKLevel, SupportedLocale } from './enums.js';
 
 // ─── Common Wrappers ─────────────────────────────────────────────────────────
 

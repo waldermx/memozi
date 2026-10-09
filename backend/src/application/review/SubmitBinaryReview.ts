@@ -6,7 +6,7 @@ import type { IGamificationRepository } from '../../domain/ports/outbound/IGamif
 import type { ICharacterRepository } from '../../domain/ports/outbound/ICharacterRepository.js';
 import { FSRSService } from '../../domain/services/FSRSService.js';
 import { GamificationService } from '../../domain/services/GamificationService.js';
-import { BinaryRating } from '../../domain/value-objects/BinaryRating.js';
+import { BinaryRating } from '@memozi/shared';
 import { ReviewLog } from '../../domain/entities/ReviewLog.js';
 import type { Achievement } from '../../domain/entities/Gamification.js';
 import type { Card } from '../../domain/entities/Card.js';
