@@ -2,6 +2,7 @@
   "name": "memozi",
   "private": true,
   "version": "0.1.0",
+  "license": "AGPL-3.0-or-later",
   "description": "MemoZi — open-source Chinese character writing app with FSRS spaced repetition",
   "packageManager": "pnpm@10.19.0",
   "scripts": {
@@ -10,6 +11,9 @@
     "test": "pnpm -r test",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
+    "licenses:check": "node scripts/check-licenses.mjs",
+    "licenses:notices": "node scripts/generate-notices.mjs",
+    "test:scripts": "node --test \"scripts/**/*.test.mjs\"",
     "format": "prettier --write \"**/*.{ts,tsx,js,json,md,css}\" --ignore-path .gitignore",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,json,md,css}\" --ignore-path .gitignore",
     "prepare": "husky"
