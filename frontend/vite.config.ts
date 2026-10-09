@@ -15,5 +15,10 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
+    // Token tests read the theme CSS as ?raw; vitest blanks CSS by default.
+    // Only src/theme/*.css and the legacy src/styles/variables.css, never node_modules.
+    css: {
+      include: [/^(?!.*\/node_modules\/).*\/frontend\/src\/(theme\/[^/]+|styles\/variables)\.css(\?.*)?$/],
+    },
   }
 })

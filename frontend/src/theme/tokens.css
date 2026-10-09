@@ -1,0 +1,102 @@
+/* =========================================================
+   MemoZi design tokens — single source of truth (style guide v0)
+
+   Everything visual should read from --mz-* tokens. Ionic variables
+   (theme/variables.css) and the legacy --c-* / --sp-* variables
+   (styles/variables.css) are mapped onto these.
+
+   Contrast pairs are checked in tokens.test.ts (WCAG 2.2, AA 4.5:1).
+   Dark mode follows the system setting, same as Ionic's
+   palettes/dark.system.css imported in App.tsx.
+   ========================================================= */
+
+:root {
+  /* ---- Color (light) ---- */
+  --mz-bg: #f4f6fa;
+  --mz-surface: #ffffff;
+  --mz-text: #343435;
+  --mz-text-muted: #5f6368;
+  --mz-ink: #000000;
+  /* Brand: icons, focus rings, large elements. Not for small text on --mz-bg (3.96:1). */
+  --mz-brand: #477fac;
+  /* Primary button background and links. */
+  --mz-action: #3d6e96;
+  /* Text/icons placed on top of --mz-action. */
+  --mz-on-action: #ffffff;
+  --mz-success: #2f7d5b;
+  --mz-error: #b4483c;
+  /* "Due today" and notices. */
+  --mz-warning: #8a5a00;
+  /* Text on --mz-warning. In light only white passes on #8a5a00 (5.9:1, black is 3.5:1). */
+  --mz-on-warning: #ffffff;
+  --mz-line: #dde1e8;
+
+  /* ---- Typography ---- */
+  --mz-font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* Font files are not bundled yet; falls back to whatever the OS has. */
+  --mz-font-hanzi: 'Noto Serif SC', 'Noto Sans SC', serif;
+  --mz-font-hanzi-list: 'Noto Sans SC', sans-serif;
+  --mz-font-size-xs: 13px;
+  --mz-font-size-sm: 15px;
+  --mz-font-size-md: 17px;
+  --mz-font-size-lg: 22px;
+  --mz-font-size-xl: 28px;
+  --mz-font-weight-regular: 400;
+  --mz-font-weight-medium: 500;
+  --mz-font-weight-bold: 600;
+
+  /* ---- Spacing (4px grid) ---- */
+  --mz-space-1: 4px;
+  --mz-space-2: 8px;
+  --mz-space-3: 12px;
+  --mz-space-4: 16px;
+  --mz-space-5: 20px;
+  --mz-space-6: 24px;
+  --mz-space-7: 28px;
+  --mz-space-8: 32px;
+  --mz-gutter: var(--mz-space-4);
+  --mz-section-gap: var(--mz-space-6);
+  --mz-touch-target: 48px;
+
+  /* ---- Shape ---- */
+  --mz-radius: 8px;
+  --mz-radius-pill: 9999px; /* filter chips only */
+  --mz-border-width: 1px;
+
+  /* ---- Elevation: one soft shadow for overlapping sheets, borders elsewhere ---- */
+  --mz-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* ---- Motion ---- */
+  --mz-duration-fast: 150ms;
+  --mz-duration-base: 200ms;
+  --mz-ease: ease-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --mz-bg: #121417;
+    --mz-surface: #1b1e22;
+    --mz-text: #e7e9ee;
+    --mz-text-muted: #9aa0a6;
+    --mz-ink: #ffffff;
+    --mz-brand: #7aa6cc;
+    --mz-action: #7aa6cc;
+    /* White on #7aa6cc is only ~2.6:1, so dark mode uses dark text on buttons. */
+    --mz-on-action: #121417;
+    --mz-success: #4fa37f;
+    --mz-error: #e07a6e;
+    --mz-warning: #d9a441;
+    /* White on #d9a441 is ~2.3:1, so dark ink. */
+    --mz-on-warning: #121417;
+    --mz-line: #2a2e34;
+
+    --mz-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --mz-duration-fast: 0ms;
+    --mz-duration-base: 0ms;
+  }
+}
